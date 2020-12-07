@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,8 +12,9 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../features/userSlice';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -64,10 +65,23 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [username,setUsername] = useState();
+  const [password,setPassword] = useState();
+
+  const submitLogin = e => {
+    e.preventDefault();
+    console.log("u : " + username + " p : " + password)
+    dispatch(login({ username: username, password: password }));
+  }
+
+  const user = useSelector(state=>state.user.user)
+
+  const history = useHistory()
 
   useEffect(() => {
-    dispatch(login({ username: 'test', password: 'test' }));
-  }, []);
+    if(user) history.push('/');
+  }, [user]);
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -86,11 +100,12 @@ export default function SignInSide() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
+              onChange = {event=>{setUsername(event.target.value)}}
             />
             <TextField
               variant="outlined"
@@ -102,6 +117,7 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange = {event=>{setPassword(event.target.value)}}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -113,6 +129,7 @@ export default function SignInSide() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={submitLogin}
             >
               Sign In
             </Button>
