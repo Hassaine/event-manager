@@ -1,6 +1,7 @@
 import React from 'react';
 import Login from './pages/Login'
 import SignUp from './pages/SignUp';
+import PostCard from './components/Postcard'
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,7 +21,7 @@ function App() {
               <Login />
             </Route>
             <Route exact path="/">
-              <div>i am the pricipal page</div>
+              <PostCard />
             </Route>
           </Switch>
       </Router>
