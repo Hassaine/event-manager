@@ -1,11 +1,52 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+// import { userAPI } from './userAPI'
+import axios from 'axios';
 
+// First, create the thunk
+export const login = createAsyncThunk(
+  'user/login',
+  async ({ username, password }) => {
+    console.log(username, password);
+    var data = JSON.stringify({ username: username, password: password });
+    console.log(data);
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:3000/login',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    const response = await axios(config);
+
+    return response.headers;
+  }
+);
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
     user: null,
+    status: 'idle',
+    error: null,
+    notification: null,
   },
   reducers: {},
+  extraReducers: {
+    // Add reducers for additional action types here, and handle loading state as needed
+    [login.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [login.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.user = { ...state.user, token: action.payload.authorization };
+    },
+    [login.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.payload;
+    },
+  },
 });
 
 // export const { increment, decrement, incrementByAmount } = counterSlice.actions;

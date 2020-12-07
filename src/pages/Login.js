@@ -1,5 +1,4 @@
-  
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+import { login } from '../features/userSlice';
 
 function Copyright() {
   return (
@@ -35,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'url(https://source.unsplash.com/random)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+      theme.palette.type === 'light'
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
@@ -60,7 +63,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignInSide() {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(login({ username: 'test', password: 'test' }));
+  }, []);
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
