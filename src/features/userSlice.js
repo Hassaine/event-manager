@@ -24,10 +24,33 @@ export const login = createAsyncThunk(
     return response.headers;
   }
 );
+
+export const signUp = createAsyncThunk(
+  'user/signUp',
+  async ({ username, password, type }) => {
+    console.log(username, password, type);
+    var data = JSON.stringify({ username: username, password: password, type: type });
+    console.log(data);
+
+    var config = {
+      method: 'post',
+      url: 'http://localhost:3000/users/sign-up',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: data,
+    };
+
+    const response = await axios(config);
+
+    return response;
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: null,
+    user: null || window.localStorage.getItem("user"),
     status: 'idle',
     error: null,
     notification: null,
@@ -41,10 +64,23 @@ export const userSlice = createSlice({
     [login.fulfilled]: (state, action) => {
       state.status = 'succeeded';
       state.user = { ...state.user, token: action.payload.authorization };
+      window.localStorage.setItem("user", state.user);
     },
     [login.rejected]: (state, action) => {
       state.status = 'failed';
-      state.error = action.payload;
+      state.error = action.error.message;
+    },
+
+    [signUp.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [signUp.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.notification = 'Your accont has been created !';
+    },
+    [signUp.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
     },
   },
 });
