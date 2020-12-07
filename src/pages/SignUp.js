@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useSnackbar } from 'notistack';
+import { useDispatch, useSelector } from 'react-redux';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { signUp } from '../features/userSlice';
 
 function Copyright() {
   return (
@@ -48,6 +56,38 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
+  const [type, setType] = React.useState('');
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+
+  const dispatch = useDispatch();
+
+  //const { enqueueSnackbar } = useSnackbar();
+
+  const notification = useSelector(state=>state.user.notification)
+
+  const handleChange = (event) => {
+    setType(event.target.value);
+  };
+
+  const submitSignUp = (e) =>{
+    e.preventDefault();
+    console.log('u: ' + username + " t: " + type + " p: " + password)
+    dispatch(signUp({ username: username, password: password, type: type }));
+  }
+
+  useEffect(() => {
+    if(notification) {
+    //   enqueueSnackbar(notification, {
+    //     anchorOrigin: {
+    //         vertical: 'bottom',
+    //         horizontal: 'left',
+    //     },
+    //     variant: "success"
+    // });
+    alert(notification)
+    }
+  }, [notification])
 
   return (
     <Container component="main" maxWidth="xs">
@@ -61,28 +101,35 @@ export default function SignUp() {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
-                autoComplete="fname"
-                name="firstName"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
+                id="username"
+                label="Username"
+                name="lastName"
+                autoComplete="username"
+                onChange={event=>setUsername(event.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
+            <Grid item xs={12}>
+              <FormControl variant="outlined" className={classes.formControl} fullWidth>
+                <InputLabel id="demo-simple-select-outlined-label">Type</InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={type}
+                  onChange={handleChange}
+                  label="Type"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={"user 1"}>User1</MenuItem>
+                  <MenuItem value={"user 2"}>User2</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -105,6 +152,7 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={event=>setPassword(event.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -120,6 +168,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={submitSignUp}
           >
             Sign Up
           </Button>
