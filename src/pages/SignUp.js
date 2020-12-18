@@ -21,8 +21,6 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { signUp } from '../features/userSlice';
 
-import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
 import 'moment'
 import MomentUtils from '@date-io/moment';
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
