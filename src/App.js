@@ -2,6 +2,7 @@ import React from 'react';
 import Login from './pages/Login'
 import SignUp from './pages/SignUp';
 import PostCard from './components/Postcard'
+import Home from "./pages/Home"
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,7 +22,7 @@ function App() {
               <Login />
             </Route>
             <Route exact path="/">
-              <PostCard />
+              <Home />
             </Route>
           </Switch>
       </Router>
