@@ -27,9 +27,9 @@ export const login = createAsyncThunk(
 
 export const signUp = createAsyncThunk(
   'user/signUp',
-  async ({ username, password, type }) => {
-    console.log(username, password, type);
-    var data = JSON.stringify({ username: username, password: password, type: type });
+  async ({ username, password, type, birthday, phone, email, sexe}) => {
+    console.log(username, password, type, birthday, phone, email, sexe );
+    var data = JSON.stringify({ username: username, password: password, type: type, birthday: birthday, phone: phone, email: email, sexe: sexe});
     console.log(data);
 
     var config = {

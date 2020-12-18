@@ -2,6 +2,7 @@ import React from 'react';
 import Login from './pages/Login'
 import SignUp from './pages/SignUp';
 import PostCard from './components/Postcard'
+import { SnackbarProvider } from "notistack";
 import Home from "./pages/Home"
 import {
   BrowserRouter as Router,
@@ -12,6 +13,7 @@ import {
 
 function App() {
   return (
+    <SnackbarProvider maxSnack={5}>
     <div className="App">
       <Router>
         <Switch>
@@ -27,6 +29,7 @@ function App() {
           </Switch>
       </Router>
     </div>
+    </SnackbarProvider>
   );
 }
 

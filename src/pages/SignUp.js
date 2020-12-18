@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import {Link} from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -20,6 +20,15 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { signUp } from '../features/userSlice';
+
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import 'moment'
+import MomentUtils from '@date-io/moment';
+import {KeyboardDatePicker, MuiPickersUtilsProvider} from '@material-ui/pickers';
+
+
+
 
 function Copyright() {
   return (
@@ -56,36 +65,112 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
   const classes = useStyles();
-  const [type, setType] = React.useState('');
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [sexe, setSexe] = useState('homme');
+  const [email, setEmail] = useState(''); 
+  const [phone, setPhone] = useState(''); 
+  const [birthday, setBirthday] = useState(new Date());
+
 
   const dispatch = useDispatch();
 
-  //const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const notification = useSelector(state=>state.user.notification)
+  const error = useSelector(state=>state.user.error)
 
   const handleChange = (event) => {
-    setType(event.target.value);
+    setSexe(event.target.value);
   };
+
+  const handleDateChange = (date) => {
+    setBirthday(date);
+  };
+
+  const formValidation = () => {
+    let errorMessage = ""  
+    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if(username===null || username==='' || /\s/.test(username)) {
+      errorMessage+=" Error in username;"
+      enqueueSnackbar("Invalid username", {
+        anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left',
+        },
+        variant: "error"
+      });
+    }
+    if(password===null || password==='' || password.length<6) {
+      errorMessage+=" Error in password;"
+      enqueueSnackbar("Invalid password", {
+        anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left',
+        },
+        variant: "error"
+      });
+    }
+    if(phone===null || phone==='' || !phone.match(phoneno)){
+      errorMessage+=" Error in phone number;"
+      enqueueSnackbar("Invalid phone number", {
+        anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left',
+        },
+        variant: "error"
+      });
+    }
+    if(email===null || email==='' || !re.test(String(email).toLowerCase())){
+      errorMessage+=" Error in email;"
+      enqueueSnackbar("Invalid email address", {
+        anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left',
+        },
+        variant: "error"
+      });
+    }
+    if(errorMessage==="") return true;
+    else {
+      return false;
+    }
+  }
+
+  const dateFormater = () =>{
+    const month = new Date(+birthday).getMonth()+1
+    const date = new Date(+birthday).getUTCDate() + "-" + month + "-" + new Date(+birthday).getFullYear() 
+    return date;
+  }
 
   const submitSignUp = (e) =>{
     e.preventDefault();
-    console.log('u: ' + username + " t: " + type + " p: " + password)
-    dispatch(signUp({ username: username, password: password, type: type }));
+    // console.log('u: ' + username + " t: " + "type" + " p: " + password + " date: " 
+    // + dateFormater()
+    // + " sexe : " + sexe + " phone " +phone + " email : " + email)
+    if(formValidation()) dispatch(signUp({ username: username, password: password, type: "user", birthday: dateFormater(), sexe : sexe, phone: phone, email: email }));
   }
 
   useEffect(() => {
     if(notification) {
-    //   enqueueSnackbar(notification, {
-    //     anchorOrigin: {
-    //         vertical: 'bottom',
-    //         horizontal: 'left',
-    //     },
-    //     variant: "success"
-    // });
-    alert(notification)
+      enqueueSnackbar(notification, {
+        anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left',
+        },
+        variant: "success"
+    });
+    }
+    if(error) {
+      enqueueSnackbar(error, {
+        anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left',
+        },
+        variant: "error"
+      });
     }
   }, [notification])
 
@@ -113,21 +198,20 @@ export default function SignUp() {
                 onChange={event=>setUsername(event.target.value)}
               />
             </Grid>
+            
             <Grid item xs={12}>
               <FormControl variant="outlined" className={classes.formControl} fullWidth>
-                <InputLabel id="demo-simple-select-outlined-label">Type</InputLabel>
+                <InputLabel id="demo-simple-select-outlined-label">Sexe</InputLabel>
                 <Select
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
-                  value={type}
+                  value={sexe}
                   onChange={handleChange}
-                  label="Type"
+                  label="Sexe"
+                  defaultValue='homme'
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={"user 1"}>User1</MenuItem>
-                  <MenuItem value={"user 2"}>User2</MenuItem>
+                  <MenuItem value={"homme"}>Homme</MenuItem>
+                  <MenuItem value={"femme"}>Femme</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -140,6 +224,19 @@ export default function SignUp() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={event=>setEmail(event.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="phone"
+                label="Phone"
+                name="phone"
+                autoComplete="phone"
+                onChange={event=>setPhone(event.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -155,10 +252,31 @@ export default function SignUp() {
                 onChange={event=>setPassword(event.target.value)}
               />
             </Grid>
+
+            <MuiPickersUtilsProvider utils={MomentUtils}> 
+            <Grid item xs={12}>
+              <FormControl variant="outlined" className={classes.formControl} fullWidth>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format= "MMM Do YYYY"
+                  margin="normal"
+                  id="date-picker-inline"
+                  label="Birthday"
+                  value={birthday}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+                </FormControl>
+            </Grid>
+            </MuiPickersUtilsProvider> 
+
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
+                label="J'accepte les conditions et les termes d'utilisaton"
               />
             </Grid>
           </Grid>
@@ -174,7 +292,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to='/login' variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
