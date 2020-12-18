@@ -23,6 +23,7 @@ import { signUp } from '../features/userSlice';
 
 import 'moment';
 import MomentUtils from '@date-io/moment';
+import LuxonUtils from '@date-io/luxon';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -276,7 +277,7 @@ export default function SignUp() {
               />
             </Grid>
 
-            <MuiPickersUtilsProvider utils={MomentUtils}>
+            <MuiPickersUtilsProvider utils={LuxonUtils}>
               <Grid item xs={12}>
                 <FormControl
                   variant="outlined"
@@ -286,7 +287,7 @@ export default function SignUp() {
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
-                    format="MMM Do YYYY"
+                    format="dd LLL yyyy"
                     margin="normal"
                     id="date-picker-inline"
                     label="Birthday"
