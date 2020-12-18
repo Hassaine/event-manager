@@ -3,13 +3,13 @@
 footer {
     /* position: fixed; */
     bottom: 0;
-
+    margin-top: 220px;
 }
 
 .footer-distributed {
     background-color: #F9F9F9;
     /* background-size: contain; */
-    position: absolute;
+    /*position: absolute;*/
     bottom: 0;
 
     background-size: cover;
@@ -20,7 +20,7 @@ footer {
     width: 100%;
     text-align: left;
     font: bold 16px sans-serif;
-
+    
     padding: 55px 50px;
     margin-top: 80px;
 }

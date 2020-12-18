@@ -18,7 +18,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: 745,
   },
   media: {
     height: 0,
@@ -63,11 +63,11 @@ export default function RecipeReviewCard() {
         title="Shrimp and Chorizo Paella"
         subheader="September 14, 2016"
       />
-      <CardMedia
+      {/* <CardMedia
         className={classes.media}
         image="/static/images/cards/paella.jpg"
         title="Paella dish"
-      />
+      /> */}
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           This impressive paella is a perfect party dish and a fun meal to cook together with your
