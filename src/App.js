@@ -24,7 +24,6 @@ function App() {
             <Route exact path="/">
               <Home />
             </Route>
-
             <Route exact path="/profile" Y component={Profile} />
           </Switch>
         </Router>

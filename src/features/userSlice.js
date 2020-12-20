@@ -64,7 +64,7 @@ export const userSlice = createSlice({
     [login.fulfilled]: (state, action) => {
       state.status = 'succeeded';
       state.user = { ...state.user, token: action.payload.authorization };
-      window.localStorage.setItem("user", state.user);
+      window.localStorage.setItem("user", JSON.stringify(state.user));
     },
     [login.rejected]: (state, action) => {
       state.status = 'failed';
