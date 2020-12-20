@@ -10,19 +10,25 @@ import CardHeader from './Card/CardHeader.js';
 import CardAvatar from './Card/CardAvatar.js';
 import CardBody from './Card/CardBody.js';
 import CardFooter from './Card/CardFooter.js';
-import { Grid, makeStyles } from '@material-ui/core';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  makeStyles,
+} from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-// import {
-//   editUserName,
-//   editPassword,
-//   fetchUserProfile,
-//   getUser,
-//   clearErrors,
-//   editEmail,
-//   setError,
-// } from '../../features/userSlice.js';
 import { Link } from 'react-router-dom';
-// import Alert from '@material-ui/lab/Alert';
+import {
+  clearErrors,
+  setError,
+  editProfile,
+} from '../../features/userSlice.js';
+
+import green from '@material-ui/core/colors/green';
+import grey from '@material-ui/core/colors/grey';
 
 const styles = {
   cardCategoryWhite: {
@@ -47,38 +53,106 @@ const useStyles = makeStyles(styles);
 const EditUser = () => {
   const classes = useStyles();
 
-  // const user = useSelector(getUser);
+  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   // const [fullName, setFullName] = useState(user?.full_name);
-  const [fullName, setFullName] = useState();
+  const [username, setFullName] = useState(user?.username);
   // const [email, setEmail] = useState(user?.user_email);
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState(user?.email);
   const [password, setPassword] = useState(null);
+  const [phone, setPhone] = useState(user?.phone);
+  const [open, setOpen] = useState(false);
 
-  const editProfile = async () => {
-    // if (fullName !== user.full_name) {
-    //   await dispatch(editUserName({ full_name: fullName, token: user.token }));
-    // }
-    // if (password && password.length > 5) {
-    //   await dispatch(
-    //     editPassword({ newPassword: password, token: user.token })
-    //   );
-    //   setPassword('');
-    // }
-    // if (fullName !== user.full_name || password) {
-    //   dispatch(
-    //     fetchUserProfile({ token: user?.token, user_id: user?.user_id })
-    //   );
-    // }
-    // if (email !== user.user_email) {
-    //   if (validateEmail(email)) {
-    //     dispatch(editEmail({ token: user?.token, email: email }));
-    //   } else {
-    //     dispatch(setError('plase enter a valid email adresse'));
-    //     setEmail(user.user_email);
-    //   }
-    // }
+  const editProfileClick = async () => {
+    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+
+    //user name
+    if (username !== user.username) {
+      setOpen(true);
+    }
+
+    //user password
+    if (password && password.length > 5) {
+      await dispatch(
+        editProfile({
+          username: null,
+          token: user?.token,
+          phone: null,
+          password: password,
+          email: null,
+          birthday: null,
+          type: null,
+          sexe: null,
+        })
+      );
+      setPassword('');
+    }
+
+    //user phone number
+    if (
+      phone !== null &&
+      phone !== '' &&
+      phone.match(phoneno) &&
+      phone !== user?.phone
+    ) {
+      dispatch(
+        editProfile({
+          username: null,
+          token: user?.token,
+          phone: phone,
+          password: null,
+          email: null,
+          birthday: null,
+          type: null,
+          sexe: null,
+        })
+      );
+    }
+
+    //user email
+    if (email !== user?.email) {
+      if (validateEmail(email)) {
+        dispatch(
+          editProfile({
+            username: null,
+            token: user?.token,
+            phone: null,
+            password: null,
+            email: email,
+            birthday: null,
+            type: null,
+            sexe: null,
+          })
+        );
+      } else {
+        dispatch(setError('plase enter a valid email adresse'));
+        setEmail(user.user_email);
+      }
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleAgree = () => {
+    dispatch(
+      editProfile({
+        username: username,
+        token: user?.token,
+        phone: null,
+        password: null,
+        email: null,
+        birthday: null,
+        type: null,
+        sexe: null,
+      })
+    );
+
+    //coming soon
+    //  dispatch(logout())//
+    setOpen(false);
   };
 
   function validateEmail(email) {
@@ -87,7 +161,7 @@ const EditUser = () => {
   }
 
   useEffect(() => {
-    // dispatch(clearErrors());
+    dispatch(clearErrors());
   }, []);
 
   return (
@@ -102,7 +176,7 @@ const EditUser = () => {
             <GridContainer>
               <GridItem xs={12}>
                 <CustomInput
-                  labelText="Full name"
+                  labelText="UserName"
                   id="company-disabled"
                   // onChange={(event) => {
                   //   console.log(event.target.value);
@@ -113,7 +187,7 @@ const EditUser = () => {
                   }}
                   inputProps={{
                     disabled: false,
-                    value: fullName,
+                    value: username,
                     onChange: (event) => {
                       // console.log(event.target.value);
                       setFullName(event.target.value);
@@ -126,13 +200,14 @@ const EditUser = () => {
               <GridItem xs={12} sm={12}>
                 <CustomInput
                   labelText="Type"
-                  id="email-address"
+                  id="email-address1"
                   formControlProps={{
                     fullWidth: true,
                   }}
                   inputProps={{
                     disabled: true,
-                    defaultValue: '',
+                    // defaultValue: user.type,
+                    value: user.type,
                   }}
                 />
               </GridItem>
@@ -157,20 +232,23 @@ const EditUser = () => {
               <GridItem xs={12} sm={12} md={8}>
                 <CustomInput
                   labelText="Phone Number"
-                  id="first-name"
+                  id="pone-number"
                   formControlProps={{
                     fullWidth: true,
                   }}
                   inputProps={{
-                    disabled: true,
-
-                    defaultValue: 'user?.phone_number',
+                    value: phone,
+                    onChange: (event) => {
+                      setPhone(event.target.value);
+                    },
                   }}
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-                <Link to="/profile/editphone">
-                  <Button color="warning">Update Phone number</Button>
+                <Link to="#">
+                  <Button color="warning" disabled={true}>
+                    Update Phone number
+                  </Button>
                 </Link>
               </GridItem>
             </Grid>
@@ -192,6 +270,7 @@ const EditUser = () => {
                   inputProps={{
                     disabled: false,
                     value: password,
+                    type: 'password',
                     onChange: (event) => {
                       setPassword(event.target.value);
                     },
@@ -201,12 +280,42 @@ const EditUser = () => {
             </GridContainer>
           </CardBody>
           <CardFooter>
-            <Button color="warning" onClick={editProfile}>
+            <Button color="warning" onClick={editProfileClick}>
               Update Profile
             </Button>
           </CardFooter>
         </Card>
       </GridItem>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'UserName Update !'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Dear user, in order to change your username you need to logout and
+            login again with your new username.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleClose}
+            style={{ backgroundColor: grey['500'] }}
+          >
+            Disagree
+          </Button>
+          <Button
+            onClick={handleAgree}
+            style={{ backgroundColor: green.A400 }}
+            autoFocus
+          >
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
     </GridContainer>
   );
 };

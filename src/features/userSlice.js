@@ -25,11 +25,66 @@ export const login = createAsyncThunk(
   }
 );
 
+export const userProfile = createAsyncThunk(
+  'user/userProfile',
+  async ({ token }) => {
+    var config = {
+      method: 'get',
+      url: 'http://localhost:3000/users/profile',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    };
+
+    const response = await axios(config);
+
+    return response.data;
+  }
+);
+
+export const editProfile = createAsyncThunk(
+  'user/editProfile',
+  async ({ username, token, phone, password, email, birthday, type, sexe }) => {
+    var data = JSON.stringify({
+      username: username,
+      password: password,
+      type: type,
+      birthday: birthday,
+      phone: phone,
+      email: email,
+      sexe: sexe,
+    });
+    console.log(data);
+    var config = {
+      method: 'post',
+      url: 'http://localhost:3000/users/profile',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      data: data,
+    };
+
+    const response = await axios(config);
+
+    return response.data;
+  }
+);
+
 export const signUp = createAsyncThunk(
   'user/signUp',
-  async ({ username, password, type, birthday, phone, email, sexe}) => {
-    console.log(username, password, type, birthday, phone, email, sexe );
-    var data = JSON.stringify({ username: username, password: password, type: type, birthday: birthday, phone: phone, email: email, sexe: sexe});
+  async ({ username, password, type, birthday, phone, email, sexe }) => {
+    console.log(username, password, type, birthday, phone, email, sexe);
+    var data = JSON.stringify({
+      username: username,
+      password: password,
+      type: type,
+      birthday: birthday,
+      phone: phone,
+      email: email,
+      sexe: sexe,
+    });
     console.log(data);
 
     var config = {
@@ -50,12 +105,22 @@ export const signUp = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: null || JSON.parse(window.localStorage.getItem("user")),
+    user: null || JSON.parse(window.localStorage.getItem('user')),
     status: 'idle',
     error: null,
     notification: null,
   },
-  reducers: {},
+  reducers: {
+    clearErrors: (state) => {
+      state.error = null;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    setNotification: (state, action) => {
+      state.notification = action.payload;
+    },
+  },
   extraReducers: {
     // Add reducers for additional action types here, and handle loading state as needed
     [login.pending]: (state, action) => {
@@ -64,7 +129,7 @@ export const userSlice = createSlice({
     [login.fulfilled]: (state, action) => {
       state.status = 'succeeded';
       state.user = { ...state.user, token: action.payload.authorization };
-      window.localStorage.setItem("user", JSON.stringify(state.user));
+      window.localStorage.setItem('user', JSON.stringify(state.user));
     },
     [login.rejected]: (state, action) => {
       state.status = 'failed';
@@ -82,24 +147,38 @@ export const userSlice = createSlice({
       state.status = 'failed';
       state.error = action.error.message;
     },
+
+    //get userProfile
+    [userProfile.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [userProfile.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      // state.notification = 'Your accont has been created !';
+      state.user = { token: state.user.token, ...action.payload };
+    },
+    [userProfile.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
+    //update userProfile
+    [editProfile.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [editProfile.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.user = { token: state.user.token, ...action.payload };
+      state.notification = 'Your profile has been updated successfully';
+    },
+
+    [editProfile.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
   },
 });
 
-// export const { increment, decrement, incrementByAmount } = counterSlice.actions;
-
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
-// export const incrementAsync = amount => dispatch => {
-//   setTimeout(() => {
-//     dispatch(incrementByAmount(amount));
-//   }, 1000);
-// };
-
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-// export const selectCount = state => state.counter.value;
+export const { setError, setNotification, clearErrors } = userSlice.actions;
 
 export default userSlice.reducer;

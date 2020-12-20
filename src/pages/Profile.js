@@ -18,14 +18,14 @@ import RestoreIcon from '@material-ui/icons/Restore';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import EditIcon from '@material-ui/icons/Edit';
 import { useDispatch, useSelector } from 'react-redux';
-//   import { getUser, setError, setNotification } from '../../features/userSlice';
 import EditUser from '../components/profileViews/EditUser';
-//   import {
-//     fetchBuyedProduct,
-//     selectAllProducts,
-//   } from '../../features/licenceSlice';
 import PruchasesHistory from '../components/profileViews/PurchasesHistory';
-//   import NotificationHandler from '../statics/NotificationHandler';
+import { setError, setNotification, userProfile } from '../features/userSlice';
+import NotificationHandler from '../components/static/NotificationHandler';
+import MyEvents from '../components/profileViews/MyEvents';
+import EventIcon from '@material-ui/icons/Event';
+import EventAvailableIcon from '@material-ui/icons/EventAvailable';
+import DateRangeIcon from '@material-ui/icons/DateRange';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,9 +46,9 @@ const Profile = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  // const user = useSelector(getUser);
-  //   const error = useSelector((state) => state.user.error);
-  //   const notification = useSelector((state) => state.user.notification);
+  const user = useSelector((state) => state.user.user);
+  const error = useSelector((state) => state.user.error);
+  const notification = useSelector((state) => state.user.notification);
   const history = useHistory();
   const dispatch = useDispatch();
   // const products = useSelector(selectAllProducts);
@@ -56,29 +56,12 @@ const Profile = () => {
   const [triggerLicence, setTriggerLicence] = useState(false);
 
   useEffect(() => {
-    //   if (!user) {
-    //     history.push('/');
-    //   }
-    //   if (products.length === 0) {
-    //     dispatch(fetchBuyedProduct({ token: user.token }));
-    //   }
-    // if (
-    //   products.length > 0 &&
-    //   JSON.stringify(licences) === JSON.stringify({})
-    // ) {
-    //   setTriggerLicence(true);
-    // }
-    // if (user && triggerLicence) {
-    //   // console.log(products, licences);
-    //   for (let index = 0; index < products.length; index++) {
-    //     const product = products[index];
-    //     dispatch(
-    //       fetchBuyedLicence({ token: user.token, product_id: product._id })
-    //     );
-    //   }
-    //   setTriggerLicence(false);
-    // }
-  }, []);
+    if (!user) {
+      history.push('/');
+    } else if (!('phone' in user)) {
+      dispatch(userProfile({ token: user.token }));
+    }
+  }, [user]);
   return (
     <React.Fragment>
       <div className={classes.root}>
@@ -102,19 +85,33 @@ const Profile = () => {
                 label="Profil Info"
                 icon={<PermIdentityIcon />}
               />
-              <BottomNavigationAction label="edit Profil" icon={<EditIcon />} />
-              <BottomNavigationAction label="history" icon={<RestoreIcon />} />
+              <BottomNavigationAction label="Edit Profil" icon={<EditIcon />} />
+              <BottomNavigationAction
+                label="Mes evenements"
+                icon={<EventIcon />}
+              />
+              <BottomNavigationAction
+                label="Mes participations"
+                icon={<EventAvailableIcon />}
+              />
+              <BottomNavigationAction
+                label="mes intérêts"
+                icon={<DateRangeIcon />}
+              />
             </BottomNavigation>
-            {value === 2 && <PruchasesHistory />}
+
             {value === 0 && <InfoUser />}
             {value === 1 && <EditUser />}
+            {value === 2 && <MyEvents />}
+            {value === 3 && <MyEvents />}
+            {value === 4 && <MyEvents />}
 
-            {/* <NotificationHandler
-                error={error}
-                setError={setError}
-                notification={notification}
-                setNotification={setNotification}
-              /> */}
+            <NotificationHandler
+              error={error}
+              setError={setError}
+              notification={notification}
+              setNotification={setNotification}
+            />
           </Grid>
         </Grid>
       </div>
