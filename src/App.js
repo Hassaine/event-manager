@@ -7,22 +7,26 @@ import { SnackbarProvider } from 'notistack';
 import Home from './pages/Home';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Profile from './pages/Profile';
+import Landing from './pages/Landing'
 
 function App() {
   return (
     <SnackbarProvider maxSnack={5}>
       <div className="App">
-        <Navbar />
         <Router>
+          <Navbar />
           <Switch>
-            <Route path="/SignUp">
+            <Route exact path="/SignUp">
               <SignUp />
             </Route>
-            <Route path="/Login">
+            <Route exact path="/Login">
               <Login />
             </Route>
             <Route exact path="/">
               <Home />
+            </Route>
+            <Route exact path="/Landing">
+              <Landing />
             </Route>
             <Route exact path="/profile" Y component={Profile} />
           </Switch>
