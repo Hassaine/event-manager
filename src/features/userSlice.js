@@ -50,7 +50,7 @@ export const signUp = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: null || window.localStorage.getItem("user"),
+    user: null || JSON.parse(window.localStorage.getItem("user")),
     status: 'idle',
     error: null,
     notification: null,

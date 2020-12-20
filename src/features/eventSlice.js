@@ -3,13 +3,13 @@ import axios from 'axios';
 
 export const getAllEvents = createAsyncThunk(
   'event/getAll',
-  async () => {
+  async ({token}) => {
     var config = {
       method: 'get',
       url: 'http://localhost:3000/events',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': JSON.parse(window.localStorage.getItem('user')).token
+        'Authorization': token
       }
     };
     const response = await axios(config);
