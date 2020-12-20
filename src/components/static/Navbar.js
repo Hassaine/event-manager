@@ -11,15 +11,17 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Button from '@material-ui/core/Button';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Grid } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({  
   grow: {
     flexGrow: 1,
-    marginBottom: 30,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -79,6 +81,10 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  link: {
+    textDecoration: 'none',
+    color: 'black'
+  }
 }));
 
 export default function PrimarySearchAppBar() {
@@ -90,6 +96,8 @@ export default function PrimarySearchAppBar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const user = useSelector(state => state.user.user)
+
+  const hist = useHistory();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -103,6 +111,13 @@ export default function PrimarySearchAppBar() {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
+
+  const handleLogout = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+    window.localStorage.removeItem("user");
+    hist.push('/Landing')
+  }
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -119,8 +134,13 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <Link to='/Profile' className={classes.link} > 
+        <MenuItem onClick={handleMenuClose}> 
+          Profile
+        </MenuItem>
+      </Link>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -204,22 +224,43 @@ export default function PrimarySearchAppBar() {
               user
               &&
               <div>
-              <IconButton aria-label="show 17 new notifications" color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </div>
+                <IconButton aria-label="show 17 new notifications" color="inherit">
+                  <Badge badgeContent={17} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </div>
+              ||
+              !user
+              &&
+              <div>
+                  <Grid container>
+                    <Grid item xs={6}>
+                    <Link to='/login' className={classes.link}>  
+                      <Button variant="contained" color="primary">
+                        Login
+                      </Button>
+                      </Link>
+                    </Grid>
+                    <Grid item xs={6}>
+                    <Link to='/Signup' className={classes.link}> 
+                      <Button variant="contained"> 
+                        Register 
+                      </Button>
+                    </Link>
+                    </Grid>
+                  </Grid>
+              </div>
             }
             
           </div>
