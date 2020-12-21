@@ -71,13 +71,13 @@ export default function SignUp() {
   const [phone, setPhone] = useState('');
   const [birthday, setBirthday] = useState();
 
+
   const dispatch = useDispatch();
-
   const { enqueueSnackbar } = useSnackbar();
-
   const notification = useSelector((state) => state.user.notification);
   const error = useSelector((state) => state.user.error);
 
+  
   const handleChange = (event) => {
     setSexe(event.target.value);
   };
