@@ -72,6 +72,26 @@ export const editProfile = createAsyncThunk(
   }
 );
 
+export const uploadProfilePic = createAsyncThunk(
+  'user/uploadProfilePic',
+  async ({ token, file }) => {
+    var data = new FormData();
+    data.append('image', file);
+    var config = {
+      method: 'post',
+      url: 'http://localhost:3000/users/profile/pic',
+      headers: {
+        Authorization: token,
+      },
+      data: data,
+    };
+
+    const response = await axios(config);
+
+    return response.data;
+  }
+);
+
 export const signUp = createAsyncThunk(
   'user/signUp',
   async ({ username, password, type, birthday, phone, email, sexe }) => {
@@ -173,6 +193,24 @@ export const userSlice = createSlice({
     },
 
     [editProfile.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
+    // upload profile pics
+    [uploadProfilePic.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [uploadProfilePic.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.user = {
+        ...state.user,
+        photosImagePath: action.payload.photosImagePath,
+      };
+      state.notification = 'Your profile pic has been update';
+    },
+
+    [uploadProfilePic.rejected]: (state, action) => {
       state.status = 'failed';
       state.error = action.error.message;
     },

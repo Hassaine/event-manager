@@ -17,10 +17,11 @@ import moment from 'moment';
 // import avatar from '../../assets/faces/user.svg';
 import { Grid } from '@material-ui/core';
 // import { getUser } from '../../features/userSlice.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import NewFooter from '../statics/NewFooter.js';
 // import Alert from '@material-ui/lab/Alert';
 import '../../styles/css/InfoUser.css';
+import { uploadProfilePic } from '../../features/userSlice.js';
 
 const styles = {
   cardCategoryWhite: {
@@ -60,6 +61,7 @@ export default function InfoUser() {
   const [file, setFile] = useState();
 
   const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
 
   const photoUpload = (e) => {
     e.preventDefault();
@@ -67,6 +69,7 @@ export default function InfoUser() {
     const file = e.target.files[0];
     reader.onloadend = () => {
       setFile(file);
+      dispatch(uploadProfilePic({ token: user.token, file: file }));
       setImagePreviewUrl(reader.result);
     };
     reader.readAsDataURL(file);
@@ -107,7 +110,10 @@ export default function InfoUser() {
               </a> */}
 
               {/* chantier pour l'ajoute de la fonctionnalité d'ajouter une image de profile */}
-              <ImgUpload onChange={photoUpload} src={imagePreviewUrl} />
+              <ImgUpload
+                onChange={photoUpload}
+                src={'http://localhost:3000' + user?.photosImagePath}
+              />
             </CardAvatar>
             <CardBody profile>
               <h3 className={classes.cardCategory}>
