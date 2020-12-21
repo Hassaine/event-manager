@@ -13,14 +13,80 @@ export const getAllEvents = createAsyncThunk(
       }
     };
     const response = await axios(config);
-    return response;
+    return response.data;
   }
 );
+
+export const addEvent = createAsyncThunk(
+  'event/add',
+  async ({ token, title, date, description, detail }) => {
+    var data = JSON.stringify({
+      title: title,
+      date: date,
+      description: description,
+      detail: detail
+    });
+    var config = {
+      method: 'post',
+      url: 'http://localhost:3000/events',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      data: data
+    };
+    const response = await axios(config);
+    return response.data;
+  }
+);
+
+export const addInterest = createAsyncThunk(
+  'event/addInterest',
+  async ({ token, id }) => {
+    console.log(id)
+    var data = JSON.stringify({
+      id: id
+    });
+    var config = {
+      method: 'post',
+      url: 'http://localhost:3000/interests',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      data: data
+    };
+    const response = await axios(config);
+    return response.data;
+  }
+);
+
+export const addParticipation = createAsyncThunk(
+  'event/addParticipation',
+  async ({ token, id }) => {
+    console.log(id)
+    var data = JSON.stringify({
+      id: id
+    });
+    var config = {
+      method: 'post',
+      url: 'http://localhost:3000/participations',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+      data: data
+    };
+    const response = await axios(config);
+    return response.data;
+  }
+);
+
 
 export const eventSlice = createSlice({
   name: 'event',
   initialState: {
-    event: null,
+    events: [],
     error: null,
     notification: null,
   },
@@ -31,9 +97,45 @@ export const eventSlice = createSlice({
     },
     [getAllEvents.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      state.event = { ...state.event, events: action.payload };
+      state.events = state.events.concat(action.payload);
     },
     [getAllEvents.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
+    [addEvent.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [addEvent.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.notification = 'Your event has been added !';
+    },
+    [addEvent.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
+    [addInterest.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [addInterest.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.notification = 'Your interest has been added !';
+    },
+    [addInterest.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
+    [addParticipation.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [addParticipation.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.notification = 'Your participation has been added !';
+    },
+    [addParticipation.rejected]: (state, action) => {
       state.status = 'failed';
       state.error = action.error.message;
     },

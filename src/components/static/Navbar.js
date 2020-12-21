@@ -8,7 +8,6 @@ import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
@@ -18,6 +17,8 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles((theme) => ({  
   grow: {
@@ -84,6 +85,10 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: 'none',
     color: 'black'
+  },
+  websiteTitle: {
+    textDecoration: 'none',
+    color: 'white'
   }
 }));
 
@@ -116,7 +121,7 @@ export default function PrimarySearchAppBar() {
     setAnchorEl(null);
     handleMobileMenuClose();
     window.localStorage.removeItem("user");
-    hist.push('/Landing')
+    window.location.reload();
   }
 
   const handleMobileMenuOpen = (event) => {
@@ -136,11 +141,14 @@ export default function PrimarySearchAppBar() {
     >
       <Link to='/Profile' className={classes.link} > 
         <MenuItem onClick={handleMenuClose}> 
-          Profile
+          <AccountCircleIcon style={{ color: "rgb(100,130,255)", marginRight: 10}} />
+          My account
         </MenuItem>
       </Link>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>
+        <ExitToAppIcon style={{ color: "rgb(100,130,255)", marginRight: 10}} />
+        Logout
+      </MenuItem>
     </Menu>
   );
 
@@ -189,17 +197,19 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
           >
             <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Event Manager
-          </Typography>
+          </IconButton> */}
+          <Link to = '/' className={classes.websiteTitle}>
+            <Typography className={classes.title} variant="h6" noWrap>
+              Event Manager
+            </Typography>
+          </Link>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
