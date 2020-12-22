@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function RecipeReviewCard({ id, title, date, description, detail, nbParticipents, 
-                                          nbInterested, userParticipate, userInterested }) {
+                                          nbInterested, userParticipate, userInterested, owner }) {
 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -101,7 +101,7 @@ export default function RecipeReviewCard({ id, title, date, description, detail,
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            R
+            {owner.charAt(0).toUpperCase()}
           </Avatar>
         }
         action={
