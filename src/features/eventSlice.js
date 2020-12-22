@@ -80,6 +80,46 @@ export const addParticipation = createAsyncThunk(
   }
 );
 
+export const removeParticipation = createAsyncThunk(
+  'event/removeParticipation',
+  async ({ token, id }) => {
+    var data = JSON.stringify({
+      id: id,
+    });
+    var config = {
+      method: 'delete',
+      url: 'http://localhost:3000/participations',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      data: data,
+    };
+    const response = await axios(config);
+    return response.data;
+  }
+);
+
+export const removeInterest = createAsyncThunk(
+  'event/removeInterest',
+  async ({ token, id }) => {
+    var data = JSON.stringify({
+      id: id,
+    });
+    var config = {
+      method: 'delete',
+      url: 'http://localhost:3000/interests',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      data: data,
+    };
+    const response = await axios(config);
+    return response.data;
+  }
+);
+
 export const getUserParticipationEvents = createAsyncThunk(
   'event/getUserParticipationEvents',
   async ({ token }) => {
@@ -186,6 +226,42 @@ export const eventSlice = createSlice({
       state.notification = 'Your participation has been added !';
     },
     [addParticipation.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
+    [removeParticipation.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [removeParticipation.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.events.map((event) => {
+        if (event.id === action.payload) {
+          event.userParticipate = false;
+          event.nbParticipents = event.nbParticipents-1;
+        }
+      });
+      state.notification = 'Your participation has been removed !';
+    },
+    [removeInterest.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
+    [removeInterest.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [removeInterest.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.events.map((event) => {
+        if (event.id === action.payload) {
+          event.userInterested = false;
+          event.nbInterested = event.nbInterested-1;
+        }
+      });
+      state.notification = 'Your participation has been removed !';
+    },
+    [removeParticipation.rejected]: (state, action) => {
       state.status = 'failed';
       state.error = action.error.message;
     },
