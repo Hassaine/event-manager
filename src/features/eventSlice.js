@@ -154,12 +154,29 @@ export const eventSlice = createSlice({
       state.status = 'succeeded';
       state.events.map((event) => {
         if (event.id === action.payload.id) {
-          event.userInterested = !event.userInterested;
+          event.userInterested = true;
         }
       });
       state.notification = 'Your interest has been added !';
     },
     [addInterest.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
+    [addParticipation.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [addParticipation.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.events.map((event) => {
+        if (event.id === action.payload.id) {
+          event.userParticipate = true;
+        }
+      });
+      state.notification = 'Your participation has been added !';
+    },
+    [addParticipation.rejected]: (state, action) => {
       state.status = 'failed';
       state.error = action.error.message;
     },
