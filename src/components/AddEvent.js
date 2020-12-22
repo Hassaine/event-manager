@@ -8,7 +8,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, Grid, makeStyles } from '@material-ui/core';
 import 'moment';
-import MomentUtils from '@date-io/moment';
 import LuxonUtils from '@date-io/luxon';
 import {
   KeyboardDatePicker,
@@ -116,7 +115,6 @@ export default function AddEvent() {
             description: description,
             detail: detail
         }))
-        setTimeout(() => {  window.location.reload(); }, 2000);
         setOpen(false);
     }
   }
