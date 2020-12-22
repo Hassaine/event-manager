@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     maxWidth: 745,
-    height: 750,
+    height: 400,
     backgroundColor: theme.palette.background.default,
   },
   icon: {
