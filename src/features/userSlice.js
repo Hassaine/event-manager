@@ -133,7 +133,7 @@ export const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
-      window.localStorage.clearItem('user');
+      window.localStorage.removeItem('user');
     },
     clearErrors: (state) => {
       state.error = null;
