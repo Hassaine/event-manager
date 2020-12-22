@@ -133,7 +133,7 @@ export const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
-      window.localStorage.clearItem('user');
+      window.localStorage.removeItem('user');
     },
     clearErrors: (state) => {
       state.error = null;
@@ -157,7 +157,7 @@ export const userSlice = createSlice({
     },
     [login.rejected]: (state, action) => {
       state.status = 'failed';
-      state.error = action.error.message;
+      state.error = "Incorrect Username or Password";
     },
 
     [signUp.pending]: (state, action) => {

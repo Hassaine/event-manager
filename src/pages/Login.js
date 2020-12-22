@@ -13,8 +13,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../features/userSlice';
+import { login, setError, setNotification } from '../features/userSlice';
 import { useHistory } from 'react-router-dom';
+import NotificationHandler from '../components/static/NotificationHandler';
 
 function Copyright() {
   return (
@@ -67,6 +68,11 @@ export default function SignInSide() {
   const dispatch = useDispatch();
   const [username,setUsername] = useState();
   const [password,setPassword] = useState();
+  const user = useSelector(state => state.user.user)
+  const error = useSelector(state => state.user.error)
+  const notification = useSelector(state => state.user.notification)
+  const history = useHistory()
+
 
   const submitLogin = e => {
     e.preventDefault();
@@ -74,14 +80,12 @@ export default function SignInSide() {
     dispatch(login({ username: username, password: password }));
   }
 
-  const user = useSelector(state=>state.user.user)
-
-  const history = useHistory()
 
   useEffect(() => {
     if(user) history.push('/');
   }, [user]);
 
+  
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -151,6 +155,13 @@ export default function SignInSide() {
           </form>
         </div>
       </Grid>
+
+      <NotificationHandler
+        error={error}
+        notification={notification}
+        setError={setError}
+        setNotification={setNotification}
+      />
     </Grid>
   );
 }
