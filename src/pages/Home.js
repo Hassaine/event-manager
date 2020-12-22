@@ -4,6 +4,7 @@ import Postcard from '../components/Postcard';
 import { Grid, GridList, GridListTile, makeStyles } from '@material-ui/core';
 import {
   getAllEvents,
+  getEventsByKeyword,
   getParticipations,
   getUserInterestedEvents,
   getUserParticipationEvents,
@@ -35,7 +36,8 @@ function Home() {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  const events = useSelector((state) => state.event.events);
+  const searchEvents = useSelector(getEventsByKeyword);
+  const events = useSelector(state => state.event.events)
   const user = useSelector((state) => state.user.user);
   const hist = useHistory();
   const notification = useSelector((state) => state.event.notification);
@@ -53,10 +55,10 @@ function Home() {
 
   }, [events, user, notification]);
 
-  let eventsView = events
-    ? events.map((event) => (
+  let eventsView = searchEvents
+    ? searchEvents.map((event) => (
         <GridListTile
-          key={event.id}
+          key={event.id*13}
           cols={2}
           style={{ height: 'auto', marginTop: 30 }}
         >
