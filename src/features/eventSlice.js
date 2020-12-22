@@ -121,7 +121,14 @@ export const eventSlice = createSlice({
     error: null,
     notification: null,
   },
-  reducers: {},
+  reducers: {
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    setNotification: (state, action) => {
+      state.notification = action.payload;
+    },
+  },
   extraReducers: {
     [getAllEvents.pending]: (state, action) => {
       state.status = 'loading';
@@ -199,6 +206,8 @@ export const eventSlice = createSlice({
     },
   },
 });
+
+export const { setError, setNotification, clearErrors } = eventSlice.actions;
 
 //Selector
 export function getParticipations(state) {
