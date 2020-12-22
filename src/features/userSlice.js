@@ -131,6 +131,10 @@ export const userSlice = createSlice({
     notification: null,
   },
   reducers: {
+    logout: (state) => {
+      state.user = null;
+      window.localStorage.clearItem('user');
+    },
     clearErrors: (state) => {
       state.error = null;
     },
@@ -217,6 +221,11 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setError, setNotification, clearErrors } = userSlice.actions;
+export const {
+  setError,
+  setNotification,
+  clearErrors,
+  logout,
+} = userSlice.actions;
 
 export default userSlice.reducer;
