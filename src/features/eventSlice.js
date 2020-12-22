@@ -162,6 +162,7 @@ export const eventSlice = createSlice({
       state.events.map((event) => {
         if (event.id === action.payload.id) {
           event.userInterested = true;
+          event.nbInterested = event.nbInterested+1;
         }
       });
       state.notification = 'Your interest has been added !';
@@ -179,6 +180,7 @@ export const eventSlice = createSlice({
       state.events.map((event) => {
         if (event.id === action.payload.id) {
           event.userParticipate = true;
+          event.nbParticipents = event.nbParticipents+1;
         }
       });
       state.notification = 'Your participation has been added !';
