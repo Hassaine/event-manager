@@ -20,6 +20,7 @@ import { Link, useHistory } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { logout } from '../../features/userSlice'
+import { setKeywordState } from '../../features/eventSlice'
 
 const useStyles = makeStyles((theme) => ({  
   grow: {
@@ -97,6 +98,7 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [keyword, setKeyword] = React.useState('')
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -129,6 +131,11 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleSearch = (e) => {
+    setKeyword(e.target.value);
+    dispatch(setKeywordState(e.target.value.toLowerCase()));
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -226,6 +233,7 @@ export default function PrimarySearchAppBar() {
                   input: classes.inputInput,
                 }}
                 inputProps={{ 'aria-label': 'search' }}
+                onChange={handleSearch}
               />
             </div>
           }

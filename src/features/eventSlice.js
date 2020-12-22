@@ -160,6 +160,7 @@ export const eventSlice = createSlice({
     events: [],
     error: null,
     notification: null,
+    keyword: null,
   },
   reducers: {
     setError: (state, action) => {
@@ -168,6 +169,9 @@ export const eventSlice = createSlice({
     setNotification: (state, action) => {
       state.notification = action.payload;
     },
+    setKeywordState: (state, action) => {
+      state.keyword = action.payload;
+    }
   },
   extraReducers: {
     [getAllEvents.pending]: (state, action) => {
@@ -187,6 +191,7 @@ export const eventSlice = createSlice({
     },
     [addEvent.fulfilled]: (state, action) => {
       state.status = 'succeeded';
+      state.events.push(action.payload);
       state.notification = 'Your event has been added !';
     },
     [addEvent.rejected]: (state, action) => {
@@ -302,7 +307,7 @@ export const eventSlice = createSlice({
   },
 });
 
-export const { setError, setNotification, clearErrors } = eventSlice.actions;
+export const { setError, setNotification, setKeywordState } = eventSlice.actions;
 
 //Selector
 export function getParticipations(state) {
@@ -312,5 +317,14 @@ export function getParticipations(state) {
 export function getInterests(state) {
   return state.event.events.filter((e) => e.userInterested === true);
 }
+
+export function getEventsByKeyword(state) {
+  if(state.event.keyword===null || state.event.keyword==='') return state.event.events; 
+  else return state.event.events.filter((e) => e.title.toLowerCase().includes(state.event.keyword) 
+                                            || e.description.toLowerCase().includes(state.event.keyword)
+                                            || e.detail.toLowerCase().includes(state.event.keyword)
+                                        );
+}
+
 
 export default eventSlice.reducer;
