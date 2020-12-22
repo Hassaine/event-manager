@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -18,7 +18,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import { Button } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { addInterest, addParticipation } from '../features/eventSlice';
+import { addInterest, addParticipation, userInterestInEvent, userParticipateInEvent } from '../features/eventSlice';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.shortest,
     }),
   },
+  stats: {
+    marginLeft: '10px',
+    width: "10%"
+  },
   expandOpen: {
     transform: 'rotate(180deg)',
   },
@@ -48,12 +52,14 @@ const useStyles = makeStyles((theme) => ({
 },
 }));
 
-export default function RecipeReviewCard({ id, title, date, description, detail }) {
+export default function RecipeReviewCard({ id, title, date, description, detail, nbParticipents, 
+                                          nbInterested, userParticipate, userInterested }) {
 
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.user)
+  const events = useSelector(state => state.event.events)
   
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -66,12 +72,29 @@ export default function RecipeReviewCard({ id, title, date, description, detail 
     }))
   }
 
-  const submitParticipation = () => {
+  const submitParticipation = (e) => {
+    e.preventDefault();
     dispatch(addParticipation({
       id: id,
       token: user.token
     }))
   }
+  
+  //console.log(id," => ",userParticipate)
+
+  useEffect(() => {
+
+    // dispatch(userParticipateInEvent({
+    //   id: id,
+    //   token: user.token
+    // }))
+
+    // dispatch(userInterestInEvent({
+    //   id: id,
+    //   token: user.token
+    // }))
+
+  }, [])
 
   return (
     <Card className={classes.root}>
@@ -100,25 +123,58 @@ export default function RecipeReviewCard({ id, title, date, description, detail 
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Button
-          variant="contained"
-          color="inherit"
-          className={classes.button}
-          startIcon={<FavoriteIcon />}
-          onClick={submitInterest}
-        >
-          Ineterests
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          startIcon={<DirectionsWalkIcon />}
-          onClick={submitParticipation}
-        >
-          Pariticipate
-        </Button>
+        {
+          !userInterested
+          &&
+          <Button
+            variant="contained"
+            color="inherit"
+            className={classes.button}
+            startIcon={<FavoriteIcon />}
+            onClick={submitInterest}
+          >
+            Ineterests
+          </Button>
+        }
         
+        {
+          !userParticipate
+          &&
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            startIcon={<DirectionsWalkIcon />}
+            onClick={submitParticipation}
+          >
+            Pariticipate
+          </Button>
+        }
+        
+
+        <div className={classes.stats}>
+
+        <FavoriteIcon 
+            color='action' 
+            fontSize='small' 
+            style={{ float: "left", margin: 0, marginRight: '3px'}} 
+          />
+          <p style={{float: "left", margin: 0}}> 
+            {nbInterested} 
+          </p>
+
+          <DirectionsWalkIcon 
+            color='action' 
+            fontSize='small' 
+            style={{ marginLeft: '12px', float: "left", marginLeft: '12px',}} 
+          />
+          <p style={{float: "left", margin: 0}}> 
+            {nbParticipents} 
+          </p>
+          
+
+        </div>
+
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
