@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Footer from '../components/static/Footer';
 import Postcard from '../components/Postcard';
 import { Grid, GridList, GridListTile, makeStyles } from '@material-ui/core';
-import { getAllEvents } from '../features/eventSlice';
+import { getAllEvents, getParticipations, getUserInterestedEvents, getUserParticipationEvents } from '../features/eventSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import AddEvent from '../components/AddEvent';
@@ -27,7 +27,6 @@ function Home() {
     },
   }));
 
-
   const classes = useStyles();
   const dispatch = useDispatch();
   const events = useSelector((state) => state.event.events);
@@ -42,6 +41,9 @@ function Home() {
     
     if(!user) hist.push('/Landing')
     else if(events.length===0) dispatch(getAllEvents({token: user.token}))
+    else if(!('userParticipate' in events[0])) dispatch(getUserParticipationEvents({ token: user.token }))
+    else if(!('userInterested' in events[0])) dispatch(getUserInterestedEvents({ token: user.token }))
+     
 
     if (notification) {
       enqueueSnackbar(notification, {
@@ -62,12 +64,16 @@ function Home() {
       });
     }
 
+
   }, [events, user, notification])
 
+  
 
   let eventsView = events ? events.map((event) => (
     <GridListTile key={event.id} cols={2} style={{ height: 'auto', marginTop: 30 }}>
-      <Postcard key={event.id} id={event.id} title={event.title} date={event.date} detail={event.detail} description={event.description}  />
+      <Postcard key={event.id} id={event.id} title={event.title} date={event.date} detail={event.detail} 
+                description={event.description} nbParticipents={event.nbParticipents} nbInterested={event.nbInterested}
+                userParticipate={event.userParticipate} userInterested={event.userInterested}/>
     </GridListTile>
   )) : [] ;
   

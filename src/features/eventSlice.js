@@ -43,7 +43,7 @@ export const addEvent = createAsyncThunk(
 export const addInterest = createAsyncThunk(
   'event/addInterest',
   async ({ token, id }) => {
-    console.log(id)
+    
     var data = JSON.stringify({
       id: id
     });
@@ -64,7 +64,7 @@ export const addInterest = createAsyncThunk(
 export const addParticipation = createAsyncThunk(
   'event/addParticipation',
   async ({ token, id }) => {
-    console.log(id)
+    
     var data = JSON.stringify({
       id: id
     });
@@ -78,6 +78,42 @@ export const addParticipation = createAsyncThunk(
       data: data
     };
     const response = await axios(config);
+    return response.data;
+  }
+);
+
+export const getUserParticipationEvents = createAsyncThunk(
+  'event/getUserParticipationEvents',
+  async ({ token }) => {
+
+    var config = {
+      method: 'get',
+      url: 'http://localhost:3000/users/participations',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+    };
+    const response = await axios(config);
+
+    return response.data;
+  }
+);
+
+export const getUserInterestedEvents = createAsyncThunk(
+  'event/getUserInterestedEvents',
+  async ({ token }) => {
+
+    var config = {
+      method: 'get',
+      url: 'http://localhost:3000/users/intrests',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
+    };
+    const response = await axios(config);
+
     return response.data;
   }
 );
@@ -128,18 +164,50 @@ export const eventSlice = createSlice({
       state.error = action.error.message;
     },
 
-    [addParticipation.pending]: (state, action) => {
+    [getUserParticipationEvents.pending]: (state, action) => {
       state.status = 'loading';
     },
-    [addParticipation.fulfilled]: (state, action) => {
+    [getUserParticipationEvents.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      state.notification = 'Your participation has been added !';
+      state.events.map((e)=>{
+        e.userParticipate = false
+        action.payload.map((ev)=>{
+          if(ev.event.id === e.id) e.userParticipate = true; 
+        })
+      });
     },
-    [addParticipation.rejected]: (state, action) => {
+    [getUserParticipationEvents.rejected]: (state, action) => {
       state.status = 'failed';
       state.error = action.error.message;
     },
+
+    [getUserInterestedEvents.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [getUserInterestedEvents.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+      state.events.map((e)=>{
+        e.userInterested = false
+        action.payload.map((ev)=>{
+          if(ev.event.id === e.id) e.userInterested = true; 
+        })
+      });
+    },
+    [getUserInterestedEvents.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
   },
 });
+
+//Selector 
+export function getParticipations(state){
+  return state.event.events.filter( (e) => e.userParticipate === true )
+}
+
+export function getInterests(state){
+  return state.event.events.filter( (e) => e.userInterested === true )
+}
 
 export default eventSlice.reducer;
