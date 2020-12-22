@@ -1,4 +1,4 @@
-import { Grid, GridList, GridListTile } from '@material-ui/core';
+import { Grid, GridList, GridListTile, Paper } from '@material-ui/core';
 import React from 'react';
 import Postcard from '../Postcard';
 
@@ -17,17 +17,37 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     maxWidth: 745,
-    height: 450,
+    height: 750,
     backgroundColor: theme.palette.background.default,
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
+  title: {
+    backgroundColor: theme.palette.background.default,
+    marginBottom: 10,
+    paddingTop: 10,
+    height: 100,
+    textAlign: 'center',
+    justifyItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }));
 const events = [1, 2, 3, 4, 5];
 
 const eventsView = events.map((id) => (
-  <GridListTile key={id} cols={2} style={{ height: 'auto', marginTop: 10 }}>
+  <GridListTile
+    key={id}
+    cols={2}
+    style={{
+      height: 'auto',
+      marginTop: 10,
+      marginBottom: 10,
+      marginLeft: 3,
+      marginRight: 3,
+    }}
+  >
     <Postcard key={id} />
   </GridListTile>
 ));
@@ -36,7 +56,17 @@ const MyEvents = () => {
   const classes = useStyles();
   return (
     // <Grid container justify="center" alignItems="center" spacing={2}>
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      style={{ backgroundColor: 'rgba(255, 255, 255, 0.54)' }}
+    >
+      <Grid container justify="center" alignItems="center">
+        <Grid item xs={7}>
+          <Paper elevation={3} className={classes.title}>
+            <h1>Mes Événements</h1>
+          </Paper>
+        </Grid>
+      </Grid>
       <GridList cellHeight={180} className={classes.gridList}>
         {eventsView}
       </GridList>
