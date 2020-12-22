@@ -18,8 +18,9 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   gridList: {
-    maxWidth: 745,
-    height: 750,
+    maxWidth: 750,
+    height: 400,
+    minHeight: 200,
     backgroundColor: theme.palette.background.default,
   },
   icon: {
@@ -48,8 +49,8 @@ const Participations = () => {
         height: 'auto',
         marginTop: 10,
         marginBottom: 10,
-        marginLeft: 3,
-        marginRight: 3,
+        // marginLeft: 3,
+        // marginRight: 3,
       }}
     >
       <Postcard
@@ -81,7 +82,12 @@ const Participations = () => {
           </Paper>
         </Grid>
       </Grid>
-      <GridList cellHeight={180} className={classes.gridList}>
+      <GridList
+        cellHeight={180}
+        className={classes.gridList}
+        justify="center"
+        alignItems="center"
+      >
         {eventsView}
       </GridList>
     </div>
