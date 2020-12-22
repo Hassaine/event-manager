@@ -26,6 +26,8 @@ import MyEvents from '../components/profileViews/MyEvents';
 import EventIcon from '@material-ui/icons/Event';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import DateRangeIcon from '@material-ui/icons/DateRange';
+import Participations from '../components/profileViews/Participations';
+import Interests from '../components/profileViews/Interests';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,8 +105,8 @@ const Profile = () => {
             {value === 0 && <InfoUser />}
             {value === 1 && <EditUser />}
             {value === 2 && <MyEvents />}
-            {value === 3 && <MyEvents />}
-            {value === 4 && <MyEvents />}
+            {value === 3 && <Participations />}
+            {value === 4 && <Interests />}
 
             <NotificationHandler
               error={error}

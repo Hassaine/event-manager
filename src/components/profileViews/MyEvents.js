@@ -7,6 +7,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,26 +35,37 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
 }));
-const events = [1, 2, 3, 4, 5];
-
-const eventsView = events.map((id) => (
-  <GridListTile
-    key={id}
-    cols={2}
-    style={{
-      height: 'auto',
-      marginTop: 10,
-      marginBottom: 10,
-      marginLeft: 3,
-      marginRight: 3,
-    }}
-  >
-    <Postcard key={id} />
-  </GridListTile>
-));
 
 const MyEvents = () => {
   const classes = useStyles();
+  const events = useSelector((state) => state.event.events);
+  const eventsView = events.map((event) => (
+    <GridListTile
+      key={event.id}
+      cols={2}
+      style={{
+        height: 'auto',
+        marginTop: 10,
+        marginBottom: 10,
+        marginLeft: 3,
+        marginRight: 3,
+      }}
+    >
+      <Postcard
+        key={event.id}
+        id={event.id}
+        title={event.title}
+        date={event.date}
+        detail={event.detail}
+        description={event.description}
+        nbParticipents={event.nbParticipents}
+        nbInterested={event.nbInterested}
+        userParticipate={event.userParticipate}
+        userInterested={event.userInterested}
+        owner={event.ownerName}
+      />
+    </GridListTile>
+  ));
   return (
     // <Grid container justify="center" alignItems="center" spacing={2}>
     <div
