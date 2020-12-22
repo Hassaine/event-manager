@@ -18,7 +18,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
 import { Button } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { addInterest, addParticipation, userInterestInEvent, userParticipateInEvent } from '../features/eventSlice';
+import { addInterest, addParticipation, removeParticipation, removeInterest } from '../features/eventSlice';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     margin: theme.spacing(1),
-    fontSize: '75%',
+    fontSize: '90%',
+    textTransform: 'capitalize'
 },
 }));
 
@@ -72,29 +73,27 @@ export default function RecipeReviewCard({ id, title, date, description, detail,
     }))
   }
 
-  const submitParticipation = (e) => {
-    e.preventDefault();
+  const removeInterested = () => {
+    dispatch(removeInterest({
+      id: id,
+      token: user.token
+    }))
+  }
+
+  const submitParticipation = () => {
     dispatch(addParticipation({
       id: id,
       token: user.token
     }))
   }
-  
-  //console.log(id," => ",userParticipate)
 
-  useEffect(() => {
+  const removeParticipationn = () => {
+    dispatch(removeParticipation({
+      id: id,
+      token: user.token
+    }))
+  }
 
-    // dispatch(userParticipateInEvent({
-    //   id: id,
-    //   token: user.token
-    // }))
-
-    // dispatch(userInterestInEvent({
-    //   id: id,
-    //   token: user.token
-    // }))
-
-  }, [])
 
   return (
     <Card className={classes.root}>
@@ -133,7 +132,20 @@ export default function RecipeReviewCard({ id, title, date, description, detail,
             startIcon={<FavoriteIcon />}
             onClick={submitInterest}
           >
-            Ineterests
+            Intéressé
+          </Button>
+          ||
+          userInterested
+          &&
+          <Button
+            variant="contained"
+            color="inherit"
+            className={classes.button}
+            style = {{ opacity: 0.6 }}
+            startIcon={<FavoriteIcon />}
+            onClick={removeInterested}
+          >
+            Je suis intéressé
           </Button>
         }
         
@@ -147,7 +159,20 @@ export default function RecipeReviewCard({ id, title, date, description, detail,
             startIcon={<DirectionsWalkIcon />}
             onClick={submitParticipation}
           >
-            Pariticipate
+            Pariticipater
+          </Button>
+          || 
+          userParticipate
+          &&
+          <Button
+            variant="contained"
+            color="primary"
+            style = {{ opacity: 0.6 }}
+            className={classes.button}
+            startIcon={<DirectionsWalkIcon />}
+            onClick={removeParticipationn}
+          >
+            Je participe
           </Button>
         }
         

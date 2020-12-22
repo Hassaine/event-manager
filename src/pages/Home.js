@@ -40,9 +40,10 @@ function Home() {
   const hist = useHistory();
   const notification = useSelector((state) => state.event.notification);
   const error = useSelector((state) => state.event.error);
-  const { enqueueSnackbar } = useSnackbar();
+
 
   useEffect(() => {
+
     if (!user) hist.push('/Landing');
     else if (events.length === 0) dispatch(getAllEvents({ token: user.token }));
     else if (!('userParticipate' in events[0]))
@@ -50,24 +51,6 @@ function Home() {
     else if (!('userInterested' in events[0]))
       dispatch(getUserInterestedEvents({ token: user.token }));
 
-    // if (notification) {
-    //   enqueueSnackbar(notification, {
-    //     anchorOrigin: {
-    //       vertical: 'bottom',
-    //       horizontal: 'left',
-    //     },
-    //     variant: 'success',
-    //   });
-    // }
-    // if (error) {
-    //   enqueueSnackbar(error, {
-    //     anchorOrigin: {
-    //       vertical: 'bottom',
-    //       horizontal: 'left',
-    //     },
-    //     variant: 'error',
-    //   });
-    // }
   }, [events, user, notification]);
 
   let eventsView = events
@@ -88,6 +71,7 @@ function Home() {
             nbInterested={event.nbInterested}
             userParticipate={event.userParticipate}
             userInterested={event.userInterested}
+            owner={event.ownerName}
           />
         </GridListTile>
       ))

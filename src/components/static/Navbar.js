@@ -19,6 +19,7 @@ import { Grid } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { logout } from '../../features/userSlice'
 
 const useStyles = makeStyles((theme) => ({  
   grow: {
@@ -101,8 +102,8 @@ export default function PrimarySearchAppBar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const user = useSelector(state => state.user.user)
-
   const hist = useHistory();
+  const dispatch = useDispatch()
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -120,8 +121,9 @@ export default function PrimarySearchAppBar() {
   const handleLogout = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    window.localStorage.removeItem("user");
-    window.location.reload();
+    dispatch(logout())
+    // window.localStorage.removeItem("user");
+    // window.location.reload();
   }
 
   const handleMobileMenuOpen = (event) => {
