@@ -157,7 +157,7 @@ export const userSlice = createSlice({
     },
     [login.rejected]: (state, action) => {
       state.status = 'failed';
-      state.error = action.error.message;
+      state.error = "Incorrect Username or Password";
     },
 
     [signUp.pending]: (state, action) => {
