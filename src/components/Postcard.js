@@ -159,7 +159,7 @@ export default function RecipeReviewCard({ id, title, date, description, detail,
             startIcon={<DirectionsWalkIcon />}
             onClick={submitParticipation}
           >
-            Pariticipater
+            Pariticiper
           </Button>
           || 
           userParticipate
