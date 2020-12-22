@@ -3,14 +3,14 @@ import axios from 'axios';
 
 export const getAllEvents = createAsyncThunk(
   'event/getAll',
-  async ({token}) => {
+  async ({ token }) => {
     var config = {
       method: 'get',
       url: 'http://localhost:3000/events',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
-      }
+        Authorization: token,
+      },
     };
     const response = await axios(config);
     return response.data;
@@ -24,16 +24,16 @@ export const addEvent = createAsyncThunk(
       title: title,
       date: date,
       description: description,
-      detail: detail
+      detail: detail,
     });
     var config = {
       method: 'post',
       url: 'http://localhost:3000/events',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        Authorization: token,
       },
-      data: data
+      data: data,
     };
     const response = await axios(config);
     return response.data;
@@ -43,18 +43,17 @@ export const addEvent = createAsyncThunk(
 export const addInterest = createAsyncThunk(
   'event/addInterest',
   async ({ token, id }) => {
-    
     var data = JSON.stringify({
-      id: id
+      id: id,
     });
     var config = {
       method: 'post',
       url: 'http://localhost:3000/interests',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        Authorization: token,
       },
-      data: data
+      data: data,
     };
     const response = await axios(config);
     return response.data;
@@ -64,18 +63,17 @@ export const addInterest = createAsyncThunk(
 export const addParticipation = createAsyncThunk(
   'event/addParticipation',
   async ({ token, id }) => {
-    
     var data = JSON.stringify({
-      id: id
+      id: id,
     });
     var config = {
       method: 'post',
       url: 'http://localhost:3000/participations',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        Authorization: token,
       },
-      data: data
+      data: data,
     };
     const response = await axios(config);
     return response.data;
@@ -85,13 +83,12 @@ export const addParticipation = createAsyncThunk(
 export const getUserParticipationEvents = createAsyncThunk(
   'event/getUserParticipationEvents',
   async ({ token }) => {
-
     var config = {
       method: 'get',
       url: 'http://localhost:3000/users/participations',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        Authorization: token,
       },
     };
     const response = await axios(config);
@@ -103,13 +100,12 @@ export const getUserParticipationEvents = createAsyncThunk(
 export const getUserInterestedEvents = createAsyncThunk(
   'event/getUserInterestedEvents',
   async ({ token }) => {
-
     var config = {
       method: 'get',
       url: 'http://localhost:3000/users/intrests',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        Authorization: token,
       },
     };
     const response = await axios(config);
@@ -117,7 +113,6 @@ export const getUserInterestedEvents = createAsyncThunk(
     return response.data;
   }
 );
-
 
 export const eventSlice = createSlice({
   name: 'event',
@@ -157,6 +152,11 @@ export const eventSlice = createSlice({
     },
     [addInterest.fulfilled]: (state, action) => {
       state.status = 'succeeded';
+      state.events.map((event) => {
+        if (event.id === action.payload.id) {
+          event.userInterested = !event.userInterested;
+        }
+      });
       state.notification = 'Your interest has been added !';
     },
     [addInterest.rejected]: (state, action) => {
@@ -169,11 +169,11 @@ export const eventSlice = createSlice({
     },
     [getUserParticipationEvents.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      state.events.map((e)=>{
-        e.userParticipate = false
-        action.payload.map((ev)=>{
-          if(ev.event.id === e.id) e.userParticipate = true; 
-        })
+      state.events.map((e) => {
+        e.userParticipate = false;
+        action.payload.map((ev) => {
+          if (ev.event.id === e.id) e.userParticipate = true;
+        });
       });
     },
     [getUserParticipationEvents.rejected]: (state, action) => {
@@ -186,28 +186,27 @@ export const eventSlice = createSlice({
     },
     [getUserInterestedEvents.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      state.events.map((e)=>{
-        e.userInterested = false
-        action.payload.map((ev)=>{
-          if(ev.event.id === e.id) e.userInterested = true; 
-        })
+      state.events.map((e) => {
+        e.userInterested = false;
+        action.payload.map((ev) => {
+          if (ev.event.id === e.id) e.userInterested = true;
+        });
       });
     },
     [getUserInterestedEvents.rejected]: (state, action) => {
       state.status = 'failed';
       state.error = action.error.message;
     },
-
   },
 });
 
-//Selector 
-export function getParticipations(state){
-  return state.event.events.filter( (e) => e.userParticipate === true )
+//Selector
+export function getParticipations(state) {
+  return state.event.events.filter((e) => e.userParticipate === true);
 }
 
-export function getInterests(state){
-  return state.event.events.filter( (e) => e.userInterested === true )
+export function getInterests(state) {
+  return state.event.events.filter((e) => e.userInterested === true);
 }
 
 export default eventSlice.reducer;
