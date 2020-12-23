@@ -10,6 +10,7 @@ import Profile from './pages/Profile';
 import Landing from './pages/Landing'
 import { getAllEvents, getUserInterestedEvents, getUserParticipationEvents } from './features/eventSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import Footer from './components/static/Footer';
 
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
 
   return (
     <SnackbarProvider maxSnack={5}>
-      <div className="App">
+      <div className="App" style={{ backgroundColor: "#EEE2DC" }}>
         <Router>
           <Navbar />
           <Switch>

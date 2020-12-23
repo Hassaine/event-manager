@@ -168,7 +168,7 @@ const EditUser = () => {
     <GridContainer justify="center" alignItems="center">
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader color="info">
+          <CardHeader color="info" >
             <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
             {/* <p className={classes.cardCategoryWhite}>Complete your profile</p> */}
           </CardHeader>
@@ -245,8 +245,8 @@ const EditUser = () => {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={4}>
-                <Link to="#">
-                  <Button color="warning" disabled={true}>
+                <Link to="#" style={{ textDecoration: 'none' }} >
+                  <Button style={{ backgroundColor:"#123C69" }} disabled={true}>
                     Update Phone number
                   </Button>
                 </Link>
@@ -280,7 +280,7 @@ const EditUser = () => {
             </GridContainer>
           </CardBody>
           <CardFooter>
-            <Button color="warning" onClick={editProfileClick}>
+            <Button style={{ backgroundColor:"#123C69" }} onClick={editProfileClick}>
               Update Profile
             </Button>
           </CardFooter>

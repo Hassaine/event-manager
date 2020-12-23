@@ -24,7 +24,7 @@ const Footer = () => {
       <div className="footer-left">
         <div className={classes.logo}>
           <h3>
-            EventManager<span>.cc</span>
+            EventManager
           </h3>
         </div>
 
@@ -36,57 +36,47 @@ const Footer = () => {
 
       <div className="footer-center">
         <div>
-          <p>
-            <span>
-              {' '}
-              <LocationOnIcon />
-              45 rue des saints-pères 75006{' '}
-            </span>{' '}
-            Paris, France.
-          </p>
+          <span>
+            {' '}
+            <LocationOnIcon />
+            <p> 45 rue des saints-pères 75006 </p>
+          </span>{' '}
         </div>
 
         <div>
-          <p>
-            {' '}
-            <PhoneAndroidIcon /> (+33) 791 934 731{' '}
-          </p>
+
+          {' '}
+          <PhoneAndroidIcon /> <p> (+33) 791 934 731 </p>
+
         </div>
         <div>
-          <p>
-            {' '}
-            <PhoneIcon /> (+33) 21 342 985{' '}
-          </p>
+          {' '}
+          <PhoneIcon /> <p> (+33) 21 342 985 </p>
         </div>
 
         <div>
-          <p>
-            <EmailIcon /> contact@eventmanager.com
-          </p>
+          <EmailIcon /> <p> contact@eventmanager.com </p>
         </div>
       </div>
 
       <div className="footer-right">
         <p className="footer-company-about">
-          <span>About the company</span>
-          TechsioCc is a new Brand for the online sale of all types of digital
-          codes and mainly Gaming codes. Appeared in June 2020, TechsioCc
-          operates in the Algerian market mainly, Maghreb or even Arab under the
-          supervision of an Algerian company located in Cheraga, Algiers,
-          Algeria.
+          <span>A propos</span>
+          EventManager est une plateforme pour la création et le partages
+          de divers évenements.
         </p>
 
         <div className="footer-icons">
-          <a href="https://web.facebook.com/techsio.cc/">
+          <a href="#">
             <FacebookIcon />
           </a>
-          <a href="https://www.youtube.com/channel/UC1TbhyBtN6Nofv5FGS7K_Bg">
+          <a href="#">
             <YoutubeIcon />
           </a>
-          <a href="https://instagram.com/techsiocc?igshid=hjblrgji1mce">
+          <a href="#">
             <InstagramIcon />
           </a>
-          <a href="https://play.google.com/store/apps/details?id=com.cardshop.app&hl=fr&gl=US">
+          <a href="#">
             <ShopIcon />
           </a>
         </div>

@@ -28,6 +28,7 @@ function Home() {
     },
     gridList: {
       maxWidth: 745,
+      paddingBottom: "50px"
     },
     icon: {
       color: 'rgba(255, 255, 255, 0.54)',
@@ -57,27 +58,27 @@ function Home() {
 
   let eventsView = searchEvents
     ? searchEvents.map((event) => (
-        <GridListTile
+      <GridListTile
+        key={event.id}
+        cols={2}
+        style={{ height: 'auto', marginTop: 30 }}
+      >
+        <Postcard
           key={event.id}
-          cols={2}
-          style={{ height: 'auto', marginTop: 30 }}
-        >
-          <Postcard
-            key={event.id}
-            id={event.id}
-            title={event.title}
-            date={event.date}
-            detail={event.detail}
-            description={event.description}
-            nbParticipents={event.nbParticipents}
-            nbInterested={event.nbInterested}
-            userParticipate={event.userParticipate}
-            userInterested={event.userInterested}
-            owner={event.ownerName}
-            event={event}
-          />
-        </GridListTile>
-      ))
+          id={event.id}
+          title={event.title}
+          date={event.date}
+          detail={event.detail}
+          description={event.description}
+          nbParticipents={event.nbParticipents}
+          nbInterested={event.nbInterested}
+          userParticipate={event.userParticipate}
+          userInterested={event.userInterested}
+          owner={event.ownerName}
+          event={event}
+        />
+      </GridListTile>
+    ))
     : [];
 
   return (
@@ -89,7 +90,6 @@ function Home() {
         {eventsView}
       </GridList>
       <Footer />
-
       <NotificationHandler
         error={error}
         notification={notification}

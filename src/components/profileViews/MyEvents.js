@@ -15,18 +15,20 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
+    backgroundColor: '#EEE2DC'
   },
   gridList: {
-    maxWidth: 745,
+    maxWidth: 780,
     height: 400,
     minHeight: 200,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: '#EEE2DC'
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
   title: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: "#AC3B61",
+    color: "#EEE2DC",
     marginBottom: 10,
     paddingTop: 10,
     height: 100,
@@ -72,16 +74,15 @@ const MyEvents = () => {
     // <Grid container justify="center" alignItems="center" spacing={2}>
     <div
       className={classes.root}
-      style={{ backgroundColor: 'rgba(255, 255, 255, 0.54)' }}
     >
       <Grid container justify="center" alignItems="center">
         <Grid item xs={7}>
           <Paper elevation={3} className={classes.title}>
-            <h1>Mes Événements</h1>
+            <h1>Mes Évenements</h1>
           </Paper>
         </Grid>
       </Grid>
-      <GridList cellHeight={180} className={classes.gridList}>
+      <GridList id='profileDiv' cellHeight={180} className={classes.gridList}>
         {eventsView}
       </GridList>
     </div>

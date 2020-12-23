@@ -117,7 +117,7 @@ const infoBoxShadow = {
     "0 4px 20px 0 rgba(" +
     hexToRgb(blackColor) +
     ",.14), 0 7px 10px -5px rgba(" +
-    hexToRgb(infoColor[0]) +
+    hexToRgb("#000000") +
     ",.4)"
 };
 const successBoxShadow = {
@@ -170,7 +170,7 @@ const dangerCardHeader = {
 };
 const infoCardHeader = {
   background:
-    "linear-gradient(60deg, " + infoColor[1] + ", " + infoColor[2] + ")",
+    "#AC3B61",
   ...infoBoxShadow
 };
 const primaryCardHeader = {

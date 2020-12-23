@@ -16,17 +16,20 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
+    backgroundColor: '#EEE2DC'
   },
   gridList: {
-    maxWidth: 745,
+    maxWidth: 780,
     height: 400,
-    backgroundColor: theme.palette.background.default,
+    minHeight: 200,
+    backgroundColor: '#EEE2DC'
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
   title: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: "#AC3B61",
+    color: "#EEE2DC",
     marginBottom: 10,
     paddingTop: 10,
     height: 100,
@@ -73,7 +76,6 @@ const Interests = () => {
     // <Grid container justify="center" alignItems="center" spacing={2}>
     <div
       className={classes.root}
-      style={{ backgroundColor: 'rgba(255, 255, 255, 0.54)' }}
     >
       <Grid container justify="center" alignItems="center">
         <Grid item xs={7}>
@@ -82,7 +84,7 @@ const Interests = () => {
           </Paper>
         </Grid>
       </Grid>
-      <GridList cellHeight={180} className={classes.gridList}>
+      <GridList id="profileDiv" cellHeight={180} className={classes.gridList}>
         {eventsView}
       </GridList>
     </div>

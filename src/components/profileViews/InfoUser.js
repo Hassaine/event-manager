@@ -102,7 +102,10 @@ export default function InfoUser() {
         <GridItem xs={12} sm={12} md={12}>
           <Card
             profile
-            style={{ backgroundColor: 'rgba(220, 220, 220, 0.54)' }}
+            style={{ 
+              backgroundColor: "#BAB2B5AA",
+              borderRadius: "10px",
+             }}
           >
             <CardAvatar profile>
               {/* <a href="#pablo" onClick={(e) => e.preventDefault()}>

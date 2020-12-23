@@ -150,7 +150,6 @@ export default function AddEvent() {
 
   return (
     <div>
-<<<<<<< HEAD
       <Button variant="contained" 
         style={{ width: '100%', opacity: '0.9', backgroundColor: "#AC3B61", borderRadius: '7px' }} 
         color="primary" 
@@ -162,24 +161,6 @@ export default function AddEvent() {
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" >
         <DialogTitle id="form-dialog-title" style={{ backgroundColor: "#EEE2DC" }} >Add Event</DialogTitle>
         <DialogContent style={{ backgroundColor: "#EEE2DC" }} >
-=======
-      <Button
-        variant="contained"
-        style={{ width: '100%', opacity: '0.9' }}
-        color="primary"
-        startIcon={<PlaylistAddIcon />}
-        onClick={handleClickOpen}
-      >
-        Add a new event
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Add Event</DialogTitle>
-        <DialogContent>
->>>>>>> 3b8b25f19c3c95eacb4f7679e62daad686dba193
           <DialogContentText>
             To add a new event you have to fill in all the fields above, that
             should contain : the title of the event, its date, a summary of the
@@ -217,20 +198,10 @@ export default function AddEvent() {
               </Grid>
             </MuiPickersUtilsProvider>
             <Grid item xs={12}>
-<<<<<<< HEAD
+
             <TextField multiline rows={4} id="description" label="desc" variant="outlined" fullWidth style={{ borderColor: "#123C69 !important" }}
                        onChange={ event => setDescription(event.target.value) } />
-=======
-              <TextField
-                multiline
-                rows={4}
-                id="description"
-                label="desc"
-                variant="outlined"
-                fullWidth
-                onChange={(event) => setDescription(event.target.value)}
-              />
->>>>>>> 3b8b25f19c3c95eacb4f7679e62daad686dba193
+
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -251,17 +222,11 @@ export default function AddEvent() {
                 multiple
                 type="file"
                 onChange={photoUpload}
-<<<<<<< HEAD
             />
             <label htmlFor="contained-button-file">
                 <Button variant="contained" style={{ backgroundColor: '#123C69', color: 'white' }} component="span">
                     Upload image
-=======
-              />
-              <label htmlFor="contained-button-file">
-                <Button variant="contained" color="primary" component="span">
-                  Upload image
->>>>>>> 3b8b25f19c3c95eacb4f7679e62daad686dba193
+
                 </Button>
               </label>
             </Grid>

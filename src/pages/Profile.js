@@ -28,11 +28,14 @@ import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import Participations from '../components/profileViews/Participations';
 import Interests from '../components/profileViews/Interests';
+import '../styles/css/profile.css'
+import Footer from '../components/static/Footer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    backgroundColor: "#EEE2DC",
     flexGrow: 1,
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(3),
     marginLeft: theme.spacing(10),
     marginRight: theme.spacing(10),
     minHeight: '65vh',
@@ -65,59 +68,58 @@ const Profile = () => {
     }
   }, [user]);
   return (
-    <React.Fragment>
-      <div className={classes.root}>
-        <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          spacing={3}
-        >
-          <Grid item xs={12}>
-            <BottomNavigation
-              value={value}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-              showLabels
-              className={classes.bar}
-            >
-              <BottomNavigationAction
-                label="Profil Info"
-                icon={<PermIdentityIcon />}
-              />
-              <BottomNavigationAction label="Edit Profil" icon={<EditIcon />} />
-              <BottomNavigationAction
-                label="Mes evenements"
-                icon={<EventIcon />}
-              />
-              <BottomNavigationAction
-                label="Mes participations"
-                icon={<EventAvailableIcon />}
-              />
-              <BottomNavigationAction
-                label="mes intérêts"
-                icon={<DateRangeIcon />}
-              />
-            </BottomNavigation>
-
-            {value === 0 && <InfoUser />}
-            {value === 1 && <EditUser />}
-            {value === 2 && <MyEvents />}
-            {value === 3 && <Participations />}
-            {value === 4 && <Interests />}
-
-            <NotificationHandler
-              error={error}
-              setError={setError}
-              notification={notification}
-              setNotification={setNotification}
+    <div className={classes.root}>
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        spacing={3}
+      >
+        <Grid item xs={12} >
+          <BottomNavigation
+            style={{ backgroundColor: "#EEE2DC" }}
+            value={value}
+            onChange={(event, newValue) => {
+              setValue(newValue);
+            }}
+            showLabels
+            className={classes.bar}
+          >
+            <BottomNavigationAction
+              label="Profil Info"
+              icon={<PermIdentityIcon />}
             />
-          </Grid>
+            <BottomNavigationAction label="Edit Profil" icon={<EditIcon />} />
+            <BottomNavigationAction
+              label="Mes evenements"
+              icon={<EventIcon />}
+            />
+            <BottomNavigationAction
+              label="Mes participations"
+              icon={<EventAvailableIcon />}
+            />
+            <BottomNavigationAction
+              label="mes intérêts"
+              icon={<DateRangeIcon />}
+            />
+          </BottomNavigation>
+
+          {value === 0 && <InfoUser />}
+          {value === 1 && <EditUser />}
+          {value === 2 && <MyEvents />}
+          {value === 3 && <Participations />}
+          {value === 4 && <Interests />}
+
+          <NotificationHandler
+            error={error}
+            setError={setError}
+            notification={notification}
+            setNotification={setNotification}
+          />
         </Grid>
-      </div>
-    </React.Fragment>
+      </Grid>
+    </div>
   );
 };
 
