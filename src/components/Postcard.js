@@ -28,6 +28,9 @@ import {
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 745,
+    backgroundColor: "#BAB2B5",
+    borderRadius: "10px",
+    boxShadow:"inset 0 -3em 3em rgba(0,0,0,0.14), 0 0  0 2px rgb(255,255,255), 0.3em 0.3em 1em rgba(0,0,0,0.3)"
   },
   media: {
     height: 0,
@@ -55,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '90%',
     textTransform: 'capitalize',
   },
+  title: {
+    fontWeight: 'bold'
+  }
 }));
 
 export default function RecipeReviewCard({
@@ -135,7 +141,7 @@ export default function RecipeReviewCard({
             <MoreVertIcon />
           </IconButton>
         }
-        title={title}
+        title={<b>{title}</b>}
         subheader={date}
       />
       {
@@ -148,7 +154,7 @@ export default function RecipeReviewCard({
         /> 
       } 
       <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant="body2" color="textPrimary" component="p">
           {description}
         </Typography>
       </CardContent>
@@ -156,10 +162,10 @@ export default function RecipeReviewCard({
         {(!userInterested && (
           <Button
             variant="contained"
-            color="inherit"
             className={classes.button}
             startIcon={<FavoriteIcon />}
             onClick={submitInterest}
+            style={{ backgroundColor: "#EDC7B7" }}
           >
             Intéressé
           </Button>
@@ -169,7 +175,7 @@ export default function RecipeReviewCard({
               variant="contained"
               color="inherit"
               className={classes.button}
-              style={{ opacity: 0.6 }}
+              style={{ opacity: 0.6, backgroundColor: "#EDC7B7" }}
               startIcon={<FavoriteIcon />}
               onClick={removeInterested}
             >
@@ -180,7 +186,7 @@ export default function RecipeReviewCard({
         {(!userParticipate && (
           <Button
             variant="contained"
-            color="primary"
+            style={{ backgroundColor: "#123C69", color:"white" }}
             className={classes.button}
             startIcon={<DirectionsWalkIcon />}
             onClick={submitParticipation}
@@ -192,7 +198,7 @@ export default function RecipeReviewCard({
             <Button
               variant="contained"
               color="primary"
-              style={{ opacity: 0.6 }}
+              style={{ opacity: 0.6, backgroundColor: "#123C69", color:"white"  }}
               className={classes.button}
               startIcon={<DirectionsWalkIcon />}
               onClick={removeParticipationn}
@@ -203,18 +209,16 @@ export default function RecipeReviewCard({
 
         <div className={classes.stats}>
           <FavoriteIcon
-            color="action"
             fontSize="small"
-            style={{ float: 'left', margin: 0, marginRight: '3px' }}
+            style={{ float: 'left', margin: 0, marginRight: '3px', color:"#AC3B61" }}
           />
-          <p style={{ float: 'left', margin: 0 }}>{nbInterested}</p>
+          <p style={{ float: 'left', margin: 0, color:"#AC3B61" }}>{nbInterested}</p>
 
           <DirectionsWalkIcon
-            color="action"
             fontSize="small"
-            style={{ marginLeft: '12px', float: 'left', marginLeft: '12px' }}
+            style={{ marginLeft: '12px', float: 'left', marginLeft: '12px', color:"#123C69" }}
           />
-          <p style={{ float: 'left', margin: 0 }}>{nbParticipents}</p>
+          <p style={{ float: 'left', margin: 0, color:"#123C69" }}>{nbParticipents}</p>
         </div>
 
         <IconButton
@@ -230,7 +234,7 @@ export default function RecipeReviewCard({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>More Details:</Typography>
+          <Typography paragraph><b> More Details </b></Typography>
           <Typography paragraph>{detail}</Typography>
         </CardContent>
       </Collapse>

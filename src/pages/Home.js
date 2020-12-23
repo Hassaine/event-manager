@@ -24,7 +24,7 @@ function Home() {
       flexWrap: 'wrap',
       justifyContent: 'space-around',
       overflow: 'hidden',
-      backgroundColor: 'rgba(220, 220, 220, 0.54)',
+      backgroundColor: '#EEE2DC',
     },
     gridList: {
       maxWidth: 745,
@@ -47,18 +47,18 @@ function Home() {
   useEffect(() => {
 
     if (!user) hist.push('/Landing');
-    else if (events.length === 0) dispatch(getAllEvents({ token: user.token }));
-    else if (!('userParticipate' in events[0]))
-      dispatch(getUserParticipationEvents({ token: user.token }));
-    else if (!('userInterested' in events[0]))
-      dispatch(getUserInterestedEvents({ token: user.token }));
+    // else if (events.length === 0) dispatch(getAllEvents({ token: user.token }));
+    // else if (!('userParticipate' in events[0]))
+    //   dispatch(getUserParticipationEvents({ token: user.token }));
+    // else if (!('userInterested' in events[0]))
+    //   dispatch(getUserInterestedEvents({ token: user.token }));
 
-  }, [events, user, notification]);
+  }, [user]);
 
   let eventsView = searchEvents
     ? searchEvents.map((event) => (
         <GridListTile
-          key={event.id*13}
+          key={event.id}
           cols={2}
           style={{ height: 'auto', marginTop: 30 }}
         >

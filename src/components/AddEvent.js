@@ -152,12 +152,17 @@ export default function AddEvent() {
 
   return (
     <div>
-      <Button variant="contained" style={{ width: '100%', opacity: '0.9'}} color="primary" startIcon={<PlaylistAddIcon />} onClick={handleClickOpen}>
-        Add a new event
+      <Button variant="contained" 
+        style={{ width: '100%', opacity: '0.9', backgroundColor: "#AC3B61", borderRadius: '7px' }} 
+        color="primary" 
+        startIcon={<PlaylistAddIcon />} 
+        onClick={handleClickOpen}>
+
+        Ajouter un évenement
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Add Event</DialogTitle>
-        <DialogContent>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" >
+        <DialogTitle id="form-dialog-title" style={{ backgroundColor: "#EEE2DC" }} >Add Event</DialogTitle>
+        <DialogContent style={{ backgroundColor: "#EEE2DC" }} >
           <DialogContentText>
             To add a new event you have to fill in all the fields above, that should contain : 
             the title of the event, its date, a summary of the topic the event, and some details.
@@ -190,7 +195,7 @@ export default function AddEvent() {
               </Grid>
             </MuiPickersUtilsProvider>
             <Grid item xs={12}>
-            <TextField multiline rows={4} id="description" label="desc" variant="outlined" fullWidth
+            <TextField multiline rows={4} id="description" label="desc" variant="outlined" fullWidth style={{ borderColor: "#123C69 !important" }}
                        onChange={ event => setDescription(event.target.value) } />
             </Grid>
             <Grid item xs={12}>
@@ -207,7 +212,7 @@ export default function AddEvent() {
                 onChange={photoUpload}
             />
             <label htmlFor="contained-button-file">
-                <Button variant="contained" color="primary" component="span">
+                <Button variant="contained" style={{ backgroundColor: '#123C69', color: 'white' }} component="span">
                     Upload image
                 </Button>
             </label>
@@ -225,11 +230,11 @@ export default function AddEvent() {
             }
           </Grid>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
+        <DialogActions style={{ backgroundColor: "#EEE2DC" }}>
+          <Button onClick={handleClose} style={{ color:"#AC3B61" }}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit} color="primary">
+          <Button onClick={handleSubmit} style={{ color:"#123C69" }}>
             Save
           </Button>
         </DialogActions>

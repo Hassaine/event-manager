@@ -25,6 +25,7 @@ import { setKeywordState } from '../../features/eventSlice'
 const useStyles = makeStyles((theme) => ({  
   grow: {
     flexGrow: 1,
+    backgroundColor: "#F76C6C" 
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -149,13 +150,13 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <Link to='/Profile' className={classes.link} > 
-        <MenuItem onClick={handleMenuClose}> 
-          <AccountCircleIcon style={{ color: "rgb(100,130,255)", marginRight: 10}} />
+        <MenuItem onClick={handleMenuClose} > 
+          <AccountCircleIcon style={{ color: "#123C69", marginRight: 10}} />
           My account
         </MenuItem>
       </Link>
       <MenuItem onClick={handleLogout}>
-        <ExitToAppIcon style={{ color: "rgb(100,130,255)", marginRight: 10}} />
+        <ExitToAppIcon style={{ color: "#123C69", marginRight: 10}} />
         Logout
       </MenuItem>
     </Menu>
@@ -204,7 +205,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: "#123C69" }}>
         <Toolbar>
           {/* <IconButton
             edge="start"
