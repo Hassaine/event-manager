@@ -19,18 +19,21 @@ export const getAllEvents = createAsyncThunk(
 
 export const addEvent = createAsyncThunk(
   'event/add',
-  async ({ token, title, date, description, detail }) => {
-    var data = JSON.stringify({
+  async ({ token, title, date, description, detail, file }) => {
+    var model = JSON.stringify({
       title: title,
       date: date,
       description: description,
       detail: detail,
     });
+    var data = new FormData();
+    data.append('image', file)
+    data.append('event', model)
     var config = {
       method: 'post',
       url: 'http://localhost:3000/events',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         Authorization: token,
       },
       data: data,

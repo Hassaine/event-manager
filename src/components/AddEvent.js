@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { FormControl, Grid, makeStyles } from '@material-ui/core';
+import { CardMedia, FormControl, Grid, makeStyles } from '@material-ui/core';
 import 'moment';
 import LuxonUtils from '@date-io/luxon';
 import {
@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
     input: {
       display: 'none',
     },
+    previewImage : {
+      width: '100%',
+      height: 'auto',
+    }
   }));
 
 
@@ -43,6 +47,8 @@ export default function AddEvent() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [detail, setDetail] = useState('')
+  const [file, setFile] = useState('')
+  const [imagePreviewUrl, setImagePreviewUrl] = useState()
 
 
   const handleDateChange = (date) => {
@@ -113,7 +119,8 @@ export default function AddEvent() {
             title: title,
             date: dateFormater(),
             description: description,
-            detail: detail
+            detail: detail,
+            file: file
         }))
         setOpen(false);
     }
@@ -128,6 +135,18 @@ export default function AddEvent() {
       '-' +
       new Date(+eventDate).getFullYear();
     return date;
+  };
+
+  const photoUpload = (e) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    const file = e.target.files[0];
+    reader.onloadend = () => {
+      setFile(file);
+      setImagePreviewUrl(reader.result);
+      console.log(imagePreviewUrl)
+    };
+    reader.readAsDataURL(file);
   };
   
 
@@ -185,6 +204,7 @@ export default function AddEvent() {
                 id="contained-button-file"
                 multiple
                 type="file"
+                onChange={photoUpload}
             />
             <label htmlFor="contained-button-file">
                 <Button variant="contained" color="primary" component="span">
@@ -192,8 +212,18 @@ export default function AddEvent() {
                 </Button>
             </label>
             </Grid>
+            {
+              imagePreviewUrl
+              &&
+              <Grid item xs={12}>
+                {/* <CardMedia
+                  className={classes.media}
+                  image={imagePreviewUrl}
+                />  */}
+                <img src={imagePreviewUrl} className={classes.previewImage}/>
+              </Grid>
+            }
           </Grid>
-          
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

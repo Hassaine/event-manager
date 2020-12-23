@@ -68,6 +68,7 @@ export default function RecipeReviewCard({
   userParticipate,
   userInterested,
   owner,
+  event
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -120,11 +121,13 @@ export default function RecipeReviewCard({
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {owner ? owner.charAt(0).toUpperCase() : 'A'}
-            {/* <img
-              src={'http://localhost:3000' + user?.photosImagePath}
-              alt={'profile'}
-            ></img> */}
+            {
+              event.ownerPhotosPath ?
+              (<img
+                src={'http://localhost:3000' + event.ownerPhotosPath}
+                alt={'profile'}
+              ></img>) : ( owner ? owner.charAt(0).toUpperCase() : 'A' )
+            }
           </Avatar>
         }
         action={
@@ -135,11 +138,15 @@ export default function RecipeReviewCard({
         title={title}
         subheader={date}
       />
-      {/* <CardMedia
-        className={classes.media}
-        image="/static/images/cards/paella.jpg"
-        title="Paella dish"
-      /> */}
+      {
+        event.photosImagePath
+        &&
+        <CardMedia
+          className={classes.media}
+          image={'http://localhost:3000'+event.photosImagePath}
+          title="Paella dish"
+        /> 
+      } 
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
           {description}
