@@ -18,38 +18,34 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 
-
 const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
     },
-    input: {
-      display: 'none',
-    },
-    previewImage : {
-      width: '100%',
-      height: 'auto',
-    }
-  }));
-
+  },
+  input: {
+    display: 'none',
+  },
+  previewImage: {
+    width: '100%',
+    height: 'auto',
+  },
+}));
 
 export default function AddEvent() {
-
   const classes = useStyles();
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.user)
+  const user = useSelector((state) => state.user.user);
   const { enqueueSnackbar } = useSnackbar();
 
   const [open, setOpen] = React.useState(false);
-  const [eventDate, setEventDate] = useState(new Date())
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [detail, setDetail] = useState('')
-  const [file, setFile] = useState('')
-  const [imagePreviewUrl, setImagePreviewUrl] = useState()
-
+  const [eventDate, setEventDate] = useState(new Date());
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [detail, setDetail] = useState('');
+  const [file, setFile] = useState('');
+  const [imagePreviewUrl, setImagePreviewUrl] = useState();
 
   const handleDateChange = (date) => {
     setEventDate(date);
@@ -66,65 +62,68 @@ export default function AddEvent() {
   const formValidation = () => {
     let errorMessage = '';
     if (title === null || title === '') {
-        errorMessage += ' Error in title;';
-        enqueueSnackbar('Invalid title', {
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'left',
-          },
-          variant: 'error',
-        });
+      errorMessage += ' Error in title;';
+      enqueueSnackbar('Invalid title', {
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'left',
+        },
+        variant: 'error',
+      });
     }
     if (description === null || description === '') {
-        errorMessage += ' Error in description;';
-        enqueueSnackbar('Invalid description', {
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'left',
-          },
-          variant: 'error',
-        });
+      errorMessage += ' Error in description;';
+      enqueueSnackbar('Invalid description', {
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'left',
+        },
+        variant: 'error',
+      });
     }
     if (detail === null || detail === '') {
-        errorMessage += ' Error in detail;';
-        enqueueSnackbar('Invalid detail', {
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'left',
-          },
-          variant: 'error',
-        });
+      errorMessage += ' Error in detail;';
+      enqueueSnackbar('Invalid detail', {
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'left',
+        },
+        variant: 'error',
+      });
     }
     var today = new Date();
-    today.setHours(0,0,0,0);
-    if (eventDate === null || eventDate === '' || eventDate<today) {
-        errorMessage += ' Error in date;';
-        enqueueSnackbar('Invalid date', {
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'left',
-          },
-          variant: 'error',
-        });
+    today.setHours(0, 0, 0, 0);
+    if (eventDate === null || eventDate === '' || eventDate < today) {
+      errorMessage += ' Error in date;';
+      enqueueSnackbar('Invalid date', {
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'left',
+        },
+        variant: 'error',
+      });
     }
     if (errorMessage === '') return true;
     else return false;
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formValidation()){
-        dispatch(addEvent({
-            token: user.token,
-            title: title,
-            date: dateFormater(),
-            description: description,
-            detail: detail,
-            file: file
-        }))
-        setOpen(false);
+    if (formValidation()) {
+      dispatch(
+        addEvent({
+          token: user.token,
+          title: title,
+          date: dateFormater(),
+          description: description,
+          detail: detail,
+          file: file,
+        })
+      );
+      setOpen(false);
+      setImagePreviewUrl(null);
     }
-  }
+  };
 
   const dateFormater = () => {
     const month = new Date(+eventDate).getMonth() + 1;
@@ -144,14 +143,14 @@ export default function AddEvent() {
     reader.onloadend = () => {
       setFile(file);
       setImagePreviewUrl(reader.result);
-      console.log(imagePreviewUrl)
+      console.log(imagePreviewUrl);
     };
     reader.readAsDataURL(file);
   };
-  
 
   return (
     <div>
+<<<<<<< HEAD
       <Button variant="contained" 
         style={{ width: '100%', opacity: '0.9', backgroundColor: "#AC3B61", borderRadius: '7px' }} 
         color="primary" 
@@ -163,21 +162,44 @@ export default function AddEvent() {
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" >
         <DialogTitle id="form-dialog-title" style={{ backgroundColor: "#EEE2DC" }} >Add Event</DialogTitle>
         <DialogContent style={{ backgroundColor: "#EEE2DC" }} >
+=======
+      <Button
+        variant="contained"
+        style={{ width: '100%', opacity: '0.9' }}
+        color="primary"
+        startIcon={<PlaylistAddIcon />}
+        onClick={handleClickOpen}
+      >
+        Add a new event
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Add Event</DialogTitle>
+        <DialogContent>
+>>>>>>> 3b8b25f19c3c95eacb4f7679e62daad686dba193
           <DialogContentText>
-            To add a new event you have to fill in all the fields above, that should contain : 
-            the title of the event, its date, a summary of the topic the event, and some details.
+            To add a new event you have to fill in all the fields above, that
+            should contain : the title of the event, its date, a summary of the
+            topic the event, and some details.
           </DialogContentText>
           <Grid container spacing={3}>
             <Grid item xs={12}>
-                <TextField autoFocus margin="dense" id="title" label="Title" type="text" fullWidth 
-                           onChange={ event => setTitle(event.target.value) }/>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="title"
+                label="Title"
+                type="text"
+                fullWidth
+                onChange={(event) => setTitle(event.target.value)}
+              />
             </Grid>
             <MuiPickersUtilsProvider utils={LuxonUtils}>
               <Grid item xs={12}>
-                <FormControl
-                  variant="outlined"
-                  fullWidth
-                >
+                <FormControl variant="outlined" fullWidth>
                   <KeyboardDatePicker
                     disableToolbar
                     variant="inline"
@@ -195,39 +217,63 @@ export default function AddEvent() {
               </Grid>
             </MuiPickersUtilsProvider>
             <Grid item xs={12}>
+<<<<<<< HEAD
             <TextField multiline rows={4} id="description" label="desc" variant="outlined" fullWidth style={{ borderColor: "#123C69 !important" }}
                        onChange={ event => setDescription(event.target.value) } />
+=======
+              <TextField
+                multiline
+                rows={4}
+                id="description"
+                label="desc"
+                variant="outlined"
+                fullWidth
+                onChange={(event) => setDescription(event.target.value)}
+              />
+>>>>>>> 3b8b25f19c3c95eacb4f7679e62daad686dba193
             </Grid>
             <Grid item xs={12}>
-                <TextField multiline rows={4} id="detail" label="detail" variant="outlined" fullWidth 
-                           onChange={ event => setDetail(event.target.value) } />
+              <TextField
+                multiline
+                rows={4}
+                id="detail"
+                label="detail"
+                variant="outlined"
+                fullWidth
+                onChange={(event) => setDetail(event.target.value)}
+              />
             </Grid>
             <Grid item xs={12}>
-            <input
+              <input
                 accept="image/*"
                 className={classes.input}
                 id="contained-button-file"
                 multiple
                 type="file"
                 onChange={photoUpload}
+<<<<<<< HEAD
             />
             <label htmlFor="contained-button-file">
                 <Button variant="contained" style={{ backgroundColor: '#123C69', color: 'white' }} component="span">
                     Upload image
+=======
+              />
+              <label htmlFor="contained-button-file">
+                <Button variant="contained" color="primary" component="span">
+                  Upload image
+>>>>>>> 3b8b25f19c3c95eacb4f7679e62daad686dba193
                 </Button>
-            </label>
+              </label>
             </Grid>
-            {
-              imagePreviewUrl
-              &&
+            {imagePreviewUrl && (
               <Grid item xs={12}>
                 {/* <CardMedia
                   className={classes.media}
                   image={imagePreviewUrl}
                 />  */}
-                <img src={imagePreviewUrl} className={classes.previewImage}/>
+                <img src={imagePreviewUrl} className={classes.previewImage} />
               </Grid>
-            }
+            )}
           </Grid>
         </DialogContent>
         <DialogActions style={{ backgroundColor: "#EEE2DC" }}>

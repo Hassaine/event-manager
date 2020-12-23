@@ -64,6 +64,7 @@ const Interests = () => {
         userParticipate={event.userParticipate}
         userInterested={event.userInterested}
         owner={event.ownerName}
+        event={event}
       />
     </GridListTile>
   ));
