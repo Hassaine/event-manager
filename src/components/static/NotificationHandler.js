@@ -14,7 +14,7 @@ const NotificationHandler = ({
   const errorHandler = (error) => {
     enqueueSnackbar('error : ' + error, {
       anchorOrigin: {
-        vertical: 'top',
+        vertical: 'bottom',
         horizontal: 'left',
       },
       variant: 'error',
@@ -25,7 +25,7 @@ const NotificationHandler = ({
   const notificationHandler = (message) => {
     enqueueSnackbar(message, {
       anchorOrigin: {
-        vertical: 'top',
+        vertical: 'bottom',
         horizontal: 'left',
       },
 

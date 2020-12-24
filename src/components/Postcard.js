@@ -144,16 +144,18 @@ export default function RecipeReviewCard({
             ) : owner ? (
               owner.charAt(0).toUpperCase()
             ) : (
-              'A'
-            )}
+                  'A'
+                )}
           </Avatar>
         }
         action={
-          user.username === event.ownerName ? (
-            <IconButton aria-label="settings" onClick={openEditClick}>
-              <EditIcon />
-            </IconButton>
-          ) : null
+          user ?
+            (user.username === event.ownerName ? (
+              <IconButton aria-label="settings" onClick={openEditClick}>
+                <EditIcon />
+              </IconButton>
+            ) : null
+            ) : null
         }
         title={<b>{title}</b>}
         subheader={date}

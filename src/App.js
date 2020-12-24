@@ -14,7 +14,6 @@ import {
   getUserParticipationEvents,
 } from './features/eventSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import Footer from './components/static/Footer';
 import { userProfile } from './features/userSlice';
 
 function App() {
@@ -29,9 +28,9 @@ function App() {
     else if (!('userInterested' in events[0]))
       dispatch(getUserInterestedEvents({ token: user?.token }));
 
-    if (!('phone' in user)) {
-      dispatch(userProfile({ token: user.token }));
-    }
+    // if (!('phone' in user)) {
+    //   dispatch(userProfile({ token: user.token }));
+    // }
   }, [events, user]);
 
   return (

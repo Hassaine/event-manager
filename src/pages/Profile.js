@@ -69,7 +69,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (!user) {
-      history.push('/');
+      history.push('/Landing');
     } else if (!('phone' in user)) {
       dispatch(userProfile({ token: user.token }));
     }
