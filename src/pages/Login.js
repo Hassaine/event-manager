@@ -66,8 +66,8 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [username,setUsername] = useState();
-  const [password,setPassword] = useState();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
   const user = useSelector(state => state.user.user)
   const error = useSelector(state => state.user.error)
   const notification = useSelector(state => state.user.notification)
@@ -82,15 +82,15 @@ export default function SignInSide() {
 
 
   useEffect(() => {
-    if(user) history.push('/');
+    if (user) history.push('/');
   }, [user]);
 
-  
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square style={{ backgroundColor: "#EEE2DC" }}>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -109,7 +109,7 @@ export default function SignInSide() {
               name="username"
               autoComplete="username"
               autoFocus
-              onChange = {event=>{setUsername(event.target.value)}}
+              onChange={event => { setUsername(event.target.value) }}
             />
             <TextField
               variant="outlined"
@@ -121,7 +121,7 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange = {event=>{setPassword(event.target.value)}}
+              onChange={event => { setPassword(event.target.value) }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -131,7 +131,7 @@ export default function SignInSide() {
               type="submit"
               fullWidth
               variant="contained"
-              color="primary"
+              style={{ backgroundColor: "#123C69", color: "#EEE2DC" }}
               className={classes.submit}
               onClick={submitLogin}
             >

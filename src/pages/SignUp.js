@@ -77,7 +77,7 @@ export default function SignUp() {
   const notification = useSelector((state) => state.user.notification);
   const error = useSelector((state) => state.user.error);
 
-  
+
   const handleChange = (event) => {
     setSexe(event.target.value);
   };
@@ -312,8 +312,8 @@ export default function SignUp() {
             type="submit"
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
+            style={{ backgroundColor: "#123C69", color: "#EEE2DC" }}
             onClick={submitSignUp}
           >
             Sign Up

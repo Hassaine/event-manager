@@ -22,10 +22,10 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { logout } from '../../features/userSlice'
 import { setKeywordState } from '../../features/eventSlice'
 
-const useStyles = makeStyles((theme) => ({  
+const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
-    backgroundColor: "#F76C6C" 
+    backgroundColor: "#F76C6C"
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
+    color: "#EEE2DC"
   },
   search: {
     position: 'relative',
@@ -149,14 +150,14 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to='/Profile' className={classes.link} > 
-        <MenuItem onClick={handleMenuClose} > 
-          <AccountCircleIcon style={{ color: "#123C69", marginRight: 10}} />
+      <Link to='/Profile' className={classes.link} >
+        <MenuItem onClick={handleMenuClose} >
+          <AccountCircleIcon style={{ color: "#123C69", marginRight: 10 }} />
           My account
         </MenuItem>
       </Link>
       <MenuItem onClick={handleLogout}>
-        <ExitToAppIcon style={{ color: "#123C69", marginRight: 10}} />
+        <ExitToAppIcon style={{ color: "#123C69", marginRight: 10 }} />
         Logout
       </MenuItem>
     </Menu>
@@ -215,7 +216,7 @@ export default function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton> */}
-          <Link to = '/' className={classes.websiteTitle}>
+          <Link to='/' className={classes.websiteTitle}>
             <Typography className={classes.title} variant="h6" noWrap>
               Event Manager
             </Typography>
@@ -238,23 +239,13 @@ export default function PrimarySearchAppBar() {
               />
             </div>
           }
-          
+
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {/* <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton> */}
             {
               user
               &&
               <div>
-                {/* <IconButton aria-label="show 17 new notifications" color="inherit">
-                  <Badge badgeContent={17} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton> */}
                 <IconButton
                   edge="end"
                   aria-label="account of current user"
@@ -270,25 +261,25 @@ export default function PrimarySearchAppBar() {
               !user
               &&
               <div>
-                  <Grid container>
-                    <Grid item xs={6}>
-                    <Link to='/login' className={classes.link}>  
-                      <Button variant="contained" color="primary">
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Link to='/login' className={classes.link}>
+                      <Button variant="contained" style={{ backgroundColor: "#EDC7B7" }}>
                         Login
                       </Button>
-                      </Link>
-                    </Grid>
-                    <Grid item xs={6}>
-                    <Link to='/Signup' className={classes.link}> 
-                      <Button variant="contained"> 
-                        Register 
+                    </Link>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Link to='/Signup' className={classes.link}>
+                      <Button variant="contained">
+                        Register
                       </Button>
                     </Link>
-                    </Grid>
                   </Grid>
+                </Grid>
               </div>
             }
-            
+
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
