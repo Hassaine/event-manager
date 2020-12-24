@@ -27,10 +27,38 @@ export const addEvent = createAsyncThunk(
       detail: detail,
     });
     var data = new FormData();
-    data.append('image', file)
-    data.append('event', model)
+    data.append('image', file);
+    data.append('event', model);
     var config = {
       method: 'post',
+      url: 'http://localhost:3000/events',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: token,
+      },
+      data: data,
+    };
+    const response = await axios(config);
+    return response.data;
+  }
+);
+
+export const editEvent = createAsyncThunk(
+  'event/edit',
+  async ({ id, token, title, date, description, detail, file, photo }) => {
+    var model = JSON.stringify({
+      id: id,
+      title: title,
+      date: date,
+      description: description,
+      detail: detail,
+      photo: photo,
+    });
+    var data = new FormData();
+    data.append('image', file);
+    data.append('event', model);
+    var config = {
+      method: 'put',
       url: 'http://localhost:3000/events',
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -174,7 +202,7 @@ export const eventSlice = createSlice({
     },
     setKeywordState: (state, action) => {
       state.keyword = action.payload;
-    }
+    },
   },
   extraReducers: {
     [getAllEvents.pending]: (state, action) => {
@@ -189,6 +217,7 @@ export const eventSlice = createSlice({
       state.error = action.error.message;
     },
 
+    //addEvent
     [addEvent.pending]: (state, action) => {
       state.status = 'loading';
     },
@@ -202,6 +231,27 @@ export const eventSlice = createSlice({
       state.error = action.error.message;
     },
 
+    //editEvent
+    [editEvent.pending]: (state, action) => {
+      state.status = 'loading';
+    },
+    [editEvent.fulfilled]: (state, action) => {
+      state.status = 'succeeded';
+
+      //get the updated event
+      const eventIndex = state.events.findIndex(
+        (event) => event.id === action.payload.id
+      );
+
+      state.events[eventIndex] = action.payload;
+      state.notification = 'Your event has been updated !';
+    },
+    [editEvent.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
+    //add Intrest
     [addInterest.pending]: (state, action) => {
       state.status = 'loading';
     },
@@ -210,7 +260,7 @@ export const eventSlice = createSlice({
       state.events.map((event) => {
         if (event.id === action.payload.id) {
           event.userInterested = true;
-          event.nbInterested = event.nbInterested+1;
+          event.nbInterested = event.nbInterested + 1;
         }
       });
       state.notification = 'Your interest has been added !';
@@ -220,6 +270,8 @@ export const eventSlice = createSlice({
       state.error = action.error.message;
     },
 
+    //add participation
+
     [addParticipation.pending]: (state, action) => {
       state.status = 'loading';
     },
@@ -228,7 +280,7 @@ export const eventSlice = createSlice({
       state.events.map((event) => {
         if (event.id === action.payload.id) {
           event.userParticipate = true;
-          event.nbParticipents = event.nbParticipents+1;
+          event.nbParticipents = event.nbParticipents + 1;
         }
       });
       state.notification = 'Your participation has been added !';
@@ -238,6 +290,7 @@ export const eventSlice = createSlice({
       state.error = action.error.message;
     },
 
+    //remove Particiaption
     [removeParticipation.pending]: (state, action) => {
       state.status = 'loading';
     },
@@ -246,11 +299,17 @@ export const eventSlice = createSlice({
       state.events.map((event) => {
         if (event.id === action.payload) {
           event.userParticipate = false;
-          event.nbParticipents = event.nbParticipents-1;
+          event.nbParticipents = event.nbParticipents - 1;
         }
       });
       state.notification = 'Your participation has been removed !';
     },
+    [removeParticipation.rejected]: (state, action) => {
+      state.status = 'failed';
+      state.error = action.error.message;
+    },
+
+    //remove Particiaption
     [removeInterest.rejected]: (state, action) => {
       state.status = 'failed';
       state.error = action.error.message;
@@ -264,14 +323,10 @@ export const eventSlice = createSlice({
       state.events.map((event) => {
         if (event.id === action.payload) {
           event.userInterested = false;
-          event.nbInterested = event.nbInterested-1;
+          event.nbInterested = event.nbInterested - 1;
         }
       });
       state.notification = 'Your participation has been removed !';
-    },
-    [removeParticipation.rejected]: (state, action) => {
-      state.status = 'failed';
-      state.error = action.error.message;
     },
 
     [getUserParticipationEvents.pending]: (state, action) => {
@@ -310,7 +365,11 @@ export const eventSlice = createSlice({
   },
 });
 
-export const { setError, setNotification, setKeywordState } = eventSlice.actions;
+export const {
+  setError,
+  setNotification,
+  setKeywordState,
+} = eventSlice.actions;
 
 //Selector
 export function getParticipations(state) {
@@ -322,12 +381,19 @@ export function getInterests(state) {
 }
 
 export function getEventsByKeyword(state) {
-  if(state.event.keyword===null || state.event.keyword==='') return state.event.events; 
-  else return state.event.events.filter((e) => e.title.toLowerCase().includes(state.event.keyword) 
-                                            || e.description.toLowerCase().includes(state.event.keyword)
-                                            || e.detail.toLowerCase().includes(state.event.keyword)
-                                        );
+  if (state.event.keyword === null || state.event.keyword === '')
+    return state.event.events;
+  else
+    return state.event.events.filter(
+      (e) =>
+        e.title.toLowerCase().includes(state.event.keyword) ||
+        e.description.toLowerCase().includes(state.event.keyword) ||
+        e.detail.toLowerCase().includes(state.event.keyword)
+    );
 }
 
+export function getEventsByUserName(state, userName) {
+  return state.event.events.filter((e) => e.ownerName === userName);
+}
 
 export default eventSlice.reducer;

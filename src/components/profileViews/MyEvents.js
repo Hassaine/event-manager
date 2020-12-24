@@ -8,6 +8,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import { useSelector } from 'react-redux';
+import { getEventsByUserName } from '../../features/eventSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,20 +16,20 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: '#EEE2DC'
+    backgroundColor: '#EEE2DC',
   },
   gridList: {
     maxWidth: 780,
     height: 400,
     minHeight: 200,
-    backgroundColor: '#EEE2DC'
+    backgroundColor: '#EEE2DC',
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
   title: {
-    backgroundColor: "#AC3B61",
-    color: "#EEE2DC",
+    backgroundColor: '#AC3B61',
+    color: '#EEE2DC',
     marginBottom: 10,
     paddingTop: 10,
     height: 100,
@@ -41,7 +42,10 @@ const useStyles = makeStyles((theme) => ({
 
 const MyEvents = () => {
   const classes = useStyles();
-  const events = useSelector((state) => state.event.events);
+  const user = useSelector((state) => state.user.user);
+  const events = useSelector((state) =>
+    getEventsByUserName(state, user.username)
+  );
   const eventsView = events.map((event) => (
     <GridListTile
       key={event.id}
@@ -72,9 +76,7 @@ const MyEvents = () => {
   ));
   return (
     // <Grid container justify="center" alignItems="center" spacing={2}>
-    <div
-      className={classes.root}
-    >
+    <div className={classes.root}>
       <Grid container justify="center" alignItems="center">
         <Grid item xs={7}>
           <Paper elevation={3} className={classes.title}>
@@ -82,7 +84,7 @@ const MyEvents = () => {
           </Paper>
         </Grid>
       </Grid>
-      <GridList id='profileDiv' cellHeight={180} className={classes.gridList}>
+      <GridList id="profileDiv" cellHeight={180} className={classes.gridList}>
         {eventsView}
       </GridList>
     </div>

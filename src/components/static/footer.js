@@ -23,9 +23,7 @@ const Footer = () => {
     <footer className="footer-distributed">
       <div className="footer-left">
         <div className={classes.logo}>
-          <h3>
-            EventManager
-          </h3>
+          <h3>EventManager</h3>
         </div>
 
         <p className="footer-company-name">
@@ -44,10 +42,8 @@ const Footer = () => {
         </div>
 
         <div>
-
           {' '}
           <PhoneAndroidIcon /> <p> (+33) 791 934 731 </p>
-
         </div>
         <div>
           {' '}
@@ -62,8 +58,8 @@ const Footer = () => {
       <div className="footer-right">
         <p className="footer-company-about">
           <span>A propos</span>
-          EventManager est une plateforme pour la création et le partages
-          de divers évenements.
+          EventManager est une plateforme pour la création et le partages de
+          divers évenements.
         </p>
 
         <div className="footer-icons">

@@ -28,7 +28,7 @@ function Home() {
     },
     gridList: {
       maxWidth: 745,
-      paddingBottom: "50px"
+      paddingBottom: '50px',
     },
     icon: {
       color: 'rgba(255, 255, 255, 0.54)',
@@ -38,47 +38,44 @@ function Home() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const searchEvents = useSelector(getEventsByKeyword);
-  const events = useSelector(state => state.event.events)
+  const events = useSelector((state) => state.event.events);
   const user = useSelector((state) => state.user.user);
   const hist = useHistory();
   const notification = useSelector((state) => state.event.notification);
   const error = useSelector((state) => state.event.error);
 
-
   useEffect(() => {
-
     if (!user) hist.push('/Landing');
     // else if (events.length === 0) dispatch(getAllEvents({ token: user.token }));
     // else if (!('userParticipate' in events[0]))
     //   dispatch(getUserParticipationEvents({ token: user.token }));
     // else if (!('userInterested' in events[0]))
     //   dispatch(getUserInterestedEvents({ token: user.token }));
-
   }, [user]);
 
   let eventsView = searchEvents
     ? searchEvents.map((event) => (
-      <GridListTile
-        key={event.id}
-        cols={2}
-        style={{ height: 'auto', marginTop: 30 }}
-      >
-        <Postcard
+        <GridListTile
           key={event.id}
-          id={event.id}
-          title={event.title}
-          date={event.date}
-          detail={event.detail}
-          description={event.description}
-          nbParticipents={event.nbParticipents}
-          nbInterested={event.nbInterested}
-          userParticipate={event.userParticipate}
-          userInterested={event.userInterested}
-          owner={event.ownerName}
-          event={event}
-        />
-      </GridListTile>
-    ))
+          cols={2}
+          style={{ height: 'auto', marginTop: 30 }}
+        >
+          <Postcard
+            key={event.id}
+            id={event.id}
+            title={event.title}
+            date={event.date}
+            detail={event.detail}
+            description={event.description}
+            nbParticipents={event.nbParticipents}
+            nbInterested={event.nbInterested}
+            userParticipate={event.userParticipate}
+            userInterested={event.userInterested}
+            owner={event.ownerName}
+            event={event}
+          />
+        </GridListTile>
+      ))
     : [];
 
   return (

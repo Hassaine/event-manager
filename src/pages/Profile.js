@@ -20,7 +20,15 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useDispatch, useSelector } from 'react-redux';
 import EditUser from '../components/profileViews/EditUser';
 import PruchasesHistory from '../components/profileViews/PurchasesHistory';
-import { setError, setNotification, userProfile } from '../features/userSlice';
+import {
+  setError as setErrorUser,
+  setNotification as setNotificationUser,
+  userProfile,
+} from '../features/userSlice';
+import {
+  setError as setErrorEvent,
+  setNotification as setNotificationEvent,
+} from '../features/eventSlice';
 import NotificationHandler from '../components/static/NotificationHandler';
 import MyEvents from '../components/profileViews/MyEvents';
 import EventIcon from '@material-ui/icons/Event';
@@ -28,12 +36,12 @@ import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import Participations from '../components/profileViews/Participations';
 import Interests from '../components/profileViews/Interests';
-import '../styles/css/profile.css'
+import '../styles/css/profile.css';
 import Footer from '../components/static/Footer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#EEE2DC",
+    backgroundColor: '#EEE2DC',
     flexGrow: 1,
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(10),
@@ -45,20 +53,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const Profile = () => {
-  const location = useLocation();
-  let { path, url } = useRouteMatch();
+  // const location = useLocation();
+  // let { path, url } = useRouteMatch();
 
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
   const user = useSelector((state) => state.user.user);
-  const error = useSelector((state) => state.user.error);
-  const notification = useSelector((state) => state.user.notification);
+  const userError = useSelector((state) => state.user.error);
+  const userNotification = useSelector((state) => state.user.notification);
+
+  const eventError = useSelector((state) => state.event.error);
+  const eventNotification = useSelector((state) => state.event.notification);
   const history = useHistory();
   const dispatch = useDispatch();
-  // const products = useSelector(selectAllProducts);
-  //   const licences = useSelector((state) => state.licence.licences);
-  const [triggerLicence, setTriggerLicence] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -76,9 +83,9 @@ const Profile = () => {
         alignItems="center"
         spacing={3}
       >
-        <Grid item xs={12} >
+        <Grid item xs={12}>
           <BottomNavigation
-            style={{ backgroundColor: "#EEE2DC" }}
+            style={{ backgroundColor: '#EEE2DC' }}
             value={value}
             onChange={(event, newValue) => {
               setValue(newValue);
@@ -111,11 +118,19 @@ const Profile = () => {
           {value === 3 && <Participations />}
           {value === 4 && <Interests />}
 
+          {/* notification handler for the user slice */}
           <NotificationHandler
-            error={error}
-            setError={setError}
-            notification={notification}
-            setNotification={setNotification}
+            error={userError}
+            setError={setErrorUser}
+            notification={userNotification}
+            setNotification={setNotificationUser}
+          />
+          {/* notification handler for the event slice */}
+          <NotificationHandler
+            error={eventError}
+            setError={setErrorEvent}
+            notification={eventNotification}
+            setNotification={setNotificationEvent}
           />
         </Grid>
       </Grid>

@@ -16,6 +16,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DirectionsWalkIcon from '@material-ui/icons/DirectionsWalk';
+import EditIcon from '@material-ui/icons/Edit';
 import { Button } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -24,13 +25,15 @@ import {
   removeParticipation,
   removeInterest,
 } from '../features/eventSlice';
+import EditEvent from './EditEvent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 745,
-    backgroundColor: "#BAB2B5",
-    borderRadius: "10px",
-    boxShadow:"inset 0 -3em 3em rgba(0,0,0,0.14), 0 0  0 2px rgb(255,255,255), 0.3em 0.3em 1em rgba(0,0,0,0.3)"
+    backgroundColor: '#BAB2B5',
+    borderRadius: '10px',
+    boxShadow:
+      'inset 0 -3em 3em rgba(0,0,0,0.14), 0 0  0 2px rgb(255,255,255), 0.3em 0.3em 1em rgba(0,0,0,0.3)',
   },
   media: {
     height: 0,
@@ -59,8 +62,8 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'capitalize',
   },
   title: {
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 }));
 
 export default function RecipeReviewCard({
@@ -74,10 +77,12 @@ export default function RecipeReviewCard({
   userParticipate,
   userInterested,
   owner,
-  event
+  event,
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   const events = useSelector((state) => state.event.events);
@@ -122,37 +127,44 @@ export default function RecipeReviewCard({
     );
   };
 
+  const openEditClick = () => {
+    console.log('edit Click');
+    setOpenEdit(!openEdit);
+  };
   return (
     <Card className={classes.root}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {
-              event.ownerPhotosPath ?
-              (<img
+            {event.ownerPhotosPath ? (
+              <img
                 src={'http://localhost:3000' + event.ownerPhotosPath}
                 alt={'profile'}
-              ></img>) : ( owner ? owner.charAt(0).toUpperCase() : 'A' )
-            }
+              ></img>
+            ) : owner ? (
+              owner.charAt(0).toUpperCase()
+            ) : (
+              'A'
+            )}
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          user.username === event.ownerName ? (
+            <IconButton aria-label="settings" onClick={openEditClick}>
+              <EditIcon />
+            </IconButton>
+          ) : null
         }
         title={<b>{title}</b>}
         subheader={date}
       />
-      {
-        event.photosImagePath
-        &&
+      {event.photosImagePath && (
         <CardMedia
           className={classes.media}
-          image={'http://localhost:3000'+event.photosImagePath}
+          image={'http://localhost:3000' + event.photosImagePath}
           title="Paella dish"
-        /> 
-      } 
+        />
+      )}
       <CardContent>
         <Typography variant="body2" color="textPrimary" component="p">
           {description}
@@ -165,7 +177,7 @@ export default function RecipeReviewCard({
             className={classes.button}
             startIcon={<FavoriteIcon />}
             onClick={submitInterest}
-            style={{ backgroundColor: "#EDC7B7" }}
+            style={{ backgroundColor: '#EDC7B7' }}
           >
             Intéressé
           </Button>
@@ -175,7 +187,7 @@ export default function RecipeReviewCard({
               variant="contained"
               color="inherit"
               className={classes.button}
-              style={{ opacity: 0.6, backgroundColor: "#EDC7B7" }}
+              style={{ opacity: 0.6, backgroundColor: '#EDC7B7' }}
               startIcon={<FavoriteIcon />}
               onClick={removeInterested}
             >
@@ -186,7 +198,7 @@ export default function RecipeReviewCard({
         {(!userParticipate && (
           <Button
             variant="contained"
-            style={{ backgroundColor: "#123C69", color:"white" }}
+            style={{ backgroundColor: '#123C69', color: 'white' }}
             className={classes.button}
             startIcon={<DirectionsWalkIcon />}
             onClick={submitParticipation}
@@ -198,7 +210,11 @@ export default function RecipeReviewCard({
             <Button
               variant="contained"
               color="primary"
-              style={{ opacity: 0.6, backgroundColor: "#123C69", color:"white"  }}
+              style={{
+                opacity: 0.6,
+                backgroundColor: '#123C69',
+                color: 'white',
+              }}
               className={classes.button}
               startIcon={<DirectionsWalkIcon />}
               onClick={removeParticipationn}
@@ -210,15 +226,29 @@ export default function RecipeReviewCard({
         <div className={classes.stats}>
           <FavoriteIcon
             fontSize="small"
-            style={{ float: 'left', margin: 0, marginRight: '3px', color:"#AC3B61" }}
+            style={{
+              float: 'left',
+              margin: 0,
+              marginRight: '3px',
+              color: '#AC3B61',
+            }}
           />
-          <p style={{ float: 'left', margin: 0, color:"#AC3B61" }}>{nbInterested}</p>
+          <p style={{ float: 'left', margin: 0, color: '#AC3B61' }}>
+            {nbInterested}
+          </p>
 
           <DirectionsWalkIcon
             fontSize="small"
-            style={{ marginLeft: '12px', float: 'left', marginLeft: '12px', color:"#123C69" }}
+            style={{
+              marginLeft: '12px',
+              float: 'left',
+              marginLeft: '12px',
+              color: '#123C69',
+            }}
           />
-          <p style={{ float: 'left', margin: 0, color:"#123C69" }}>{nbParticipents}</p>
+          <p style={{ float: 'left', margin: 0, color: '#123C69' }}>
+            {nbParticipents}
+          </p>
         </div>
 
         <IconButton
@@ -234,10 +264,13 @@ export default function RecipeReviewCard({
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph><b> More Details </b></Typography>
+          <Typography paragraph>
+            <b> More Details </b>
+          </Typography>
           <Typography paragraph>{detail}</Typography>
         </CardContent>
       </Collapse>
+      <EditEvent event={event} openEdit={openEdit} />
     </Card>
   );
 }
