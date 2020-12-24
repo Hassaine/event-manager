@@ -22,15 +22,19 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (events.length === 0) dispatch(getAllEvents({ token: user?.token }));
-    else if (!('userParticipate' in events[0]))
-      dispatch(getUserParticipationEvents({ token: user?.token }));
-    else if (!('userInterested' in events[0]))
-      dispatch(getUserInterestedEvents({ token: user?.token }));
 
-    // if (!('phone' in user)) {
-    //   dispatch(userProfile({ token: user.token }));
-    // }
+    if (user) {
+      if (events.length === 0) dispatch(getAllEvents({ token: user?.token }));
+      else if (!('userParticipate' in events[0]))
+        dispatch(getUserParticipationEvents({ token: user?.token }));
+      else if (!('userInterested' in events[0]))
+        dispatch(getUserInterestedEvents({ token: user?.token }));
+
+      if (!('phone' in user)) {
+        dispatch(userProfile({ token: user.token }));
+      }
+    }
+
   }, [events, user]);
 
   return (

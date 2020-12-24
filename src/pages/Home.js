@@ -36,9 +36,9 @@ function Home() {
   }));
 
   const classes = useStyles();
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const searchEvents = useSelector(getEventsByKeyword);
-  const events = useSelector((state) => state.event.events);
+  //const events = useSelector((state) => state.event.events);
   const user = useSelector((state) => state.user.user);
   const hist = useHistory();
   const notification = useSelector((state) => state.event.notification);
@@ -55,27 +55,27 @@ function Home() {
 
   let eventsView = searchEvents
     ? searchEvents.map((event) => (
-        <GridListTile
+      <GridListTile
+        key={event.id}
+        cols={2}
+        style={{ height: 'auto', marginTop: 30 }}
+      >
+        <Postcard
           key={event.id}
-          cols={2}
-          style={{ height: 'auto', marginTop: 30 }}
-        >
-          <Postcard
-            key={event.id}
-            id={event.id}
-            title={event.title}
-            date={event.date}
-            detail={event.detail}
-            description={event.description}
-            nbParticipents={event.nbParticipents}
-            nbInterested={event.nbInterested}
-            userParticipate={event.userParticipate}
-            userInterested={event.userInterested}
-            owner={event.ownerName}
-            event={event}
-          />
-        </GridListTile>
-      ))
+          id={event.id}
+          title={event.title}
+          date={event.date}
+          detail={event.detail}
+          description={event.description}
+          nbParticipents={event.nbParticipents}
+          nbInterested={event.nbInterested}
+          userParticipate={event.userParticipate}
+          userInterested={event.userInterested}
+          owner={event.ownerName}
+          event={event}
+        />
+      </GridListTile>
+    ))
     : [];
 
   return (
