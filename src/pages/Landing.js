@@ -7,17 +7,19 @@ import { Button } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Footer from '../components/static/Footer';
+import '../styles/css/landing.css'
 
 const backgroundImage =
-    'https://images.unsplash.com/photo-1468234847176-28606331216a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NDN8fGV2ZW50fGVufDB8MHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60';
+    'https://source.unsplash.com/tQ0-1vkT6js/1300x900/';
 
 const useStyles = makeStyles((theme) => ({
     background: {
         backgroundImage: `url(${backgroundImage})`,
         //backgroundColor: '#7fc7d9', // Average color of the background image.
         backgroundPosition: 'center',
-        backgroundRepeat: "no-repeat",
-        // backgroundSize: "cover"
+        //backgroundRepeat: "no-repeat",
+        // backgroundSize: "cover",
+        //filter: "blur(4px)"
     },
     button: {
         minWidth: 200,
@@ -56,14 +58,14 @@ function Landing() {
     }, [user]);
 
     return (
-        <div >
-            <ProductHeroLayout backgroundClassName={classes.background}>
+        <div className={classes.background} >
+            <ProductHeroLayout ClassName={classes.background}>
                 <img style={{ display: 'none' }} src={backgroundImage} alt="increase priority" />
                 <Typography align="center" variant="h2" marked="center" style={{ color: "#AC3B61" }}>
-                    Upgrade your Sundays
+                    Partagez vos événements
                 </Typography>
                 <Typography align="center" variant="h5" className={classes.h5}>
-                    Enjoy secret offers up to -70% off the best luxury hotels every Sunday.
+                    Céez, paricipez et profitez des événements de votre intérêts.
                 </Typography>
                 <Link to='/SignUp' style={{ textDecoration: "none" }}>
                     <Button
@@ -72,11 +74,11 @@ function Landing() {
                         size="large"
                         className={classes.button}
                     >
-                        Register
+                        S'inscrire
                     </Button>
                 </Link>
                 <Typography variant="body2" className={classes.more} style={{ color: "#123C69" }}>
-                    Discover the experience
+                    Découvrez l'expérience
                 </Typography>
             </ProductHeroLayout>
             <Footer />
