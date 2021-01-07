@@ -93,21 +93,23 @@ export default function InfoUser() {
               borderRadius: "10px",
             }}
           >
-            <CardAvatar profile>
-              {
-                user.photosImagePath &&
-                <ImgUpload
-                  onChange={photoUpload}
-                  src={'http://localhost:3000' + user?.photosImagePath}
-                />
-                ||
-                !user.photosImagePath &&
-                <ImgUpload
-                  onChange={photoUpload}
-                  src={anonymPhoto}
-                />
-              }
-            </CardAvatar>
+            {user &&
+              <CardAvatar profile>
+                {
+                  user.photosImagePath &&
+                  <ImgUpload
+                    onChange={photoUpload}
+                    src={'http://localhost:3000' + user?.photosImagePath}
+                  />
+                  ||
+                  !user.photosImagePath &&
+                  <ImgUpload
+                    onChange={photoUpload}
+                    src={anonymPhoto}
+                  />
+                }
+              </CardAvatar>
+            }
             <CardBody profile>
               <h3 className={classes.cardCategory}>
                 UserName : {user?.username} / <strong>{user?.type}</strong>
