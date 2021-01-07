@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,11 +15,11 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid } from '@material-ui/core';
+import { Avatar, Grid } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { logout } from '../../features/userSlice'
+import { logout, userProfile } from '../../features/userSlice'
 import { setKeywordState } from '../../features/eventSlice'
 
 const useStyles = makeStyles((theme) => ({
@@ -93,7 +93,10 @@ const useStyles = makeStyles((theme) => ({
   websiteTitle: {
     textDecoration: 'none',
     color: 'white'
-  }
+  },
+  avatar: {
+    backgroundColor: '#AC3B61',
+  },
 }));
 
 export default function PrimarySearchAppBar() {
@@ -105,7 +108,7 @@ export default function PrimarySearchAppBar() {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const user = useSelector(state => state.user.user)
+  const user = useSelector(state => state.user.user);
   const hist = useHistory();
   const dispatch = useDispatch()
 
@@ -126,8 +129,6 @@ export default function PrimarySearchAppBar() {
     setAnchorEl(null);
     handleMobileMenuClose();
     dispatch(logout())
-    // window.localStorage.removeItem("user");
-    // window.location.reload();
   }
 
   const handleMobileMenuOpen = (event) => {
@@ -174,14 +175,6 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {/* <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem> */}
       <MenuItem>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <Badge badgeContent={11} color="secondary">
@@ -208,14 +201,6 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="static" style={{ backgroundColor: "#123C69" }}>
         <Toolbar>
-          {/* <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Link to='/' className={classes.websiteTitle}>
             <Typography className={classes.title} variant="h6" noWrap>
               Event Manager
@@ -254,7 +239,21 @@ export default function PrimarySearchAppBar() {
                   onClick={handleProfileMenuOpen}
                   color="inherit"
                 >
-                  <AccountCircle />
+                  <Avatar aria-label="recipe" className={classes.avatar}>
+                    {user.photosImagePath ? (
+                      <img
+                        src={'http://localhost:3000' + user.photosImagePath}
+                        alt={'profile'}
+                      ></img>
+                    ) :
+                      (
+                        user.username ?
+                          user.username.charAt(0).toUpperCase()
+                          :
+                          "A"
+                      )
+                    }
+                  </Avatar>
                 </IconButton>
               </div>
               ||

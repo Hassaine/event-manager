@@ -203,6 +203,9 @@ export const eventSlice = createSlice({
     setKeywordState: (state, action) => {
       state.keyword = action.payload;
     },
+    setEvents: (state, action) => {
+      state.events = action.payload.events;
+    }
   },
   extraReducers: {
     [getAllEvents.pending]: (state, action) => {
@@ -210,7 +213,7 @@ export const eventSlice = createSlice({
     },
     [getAllEvents.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      state.events = state.events.concat(action.payload);
+      state.events = action.payload;
     },
     [getAllEvents.rejected]: (state, action) => {
       state.status = 'failed';
@@ -369,6 +372,7 @@ export const {
   setError,
   setNotification,
   setKeywordState,
+  setEvents
 } = eventSlice.actions;
 
 //Selector

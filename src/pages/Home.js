@@ -36,7 +36,7 @@ function Home() {
   }));
 
   const classes = useStyles();
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const searchEvents = useSelector(getEventsByKeyword);
   //const events = useSelector((state) => state.event.events);
   const user = useSelector((state) => state.user.user);
@@ -45,12 +45,10 @@ function Home() {
   // const error = useSelector((state) => state.event.error);
 
   useEffect(() => {
+
+    //if the user is disconnected, he can't access in this page
     if (!user) hist.push('/Landing');
-    // else if (events.length === 0) dispatch(getAllEvents({ token: user.token }));
-    // else if (!('userParticipate' in events[0]))
-    //   dispatch(getUserParticipationEvents({ token: user.token }));
-    // else if (!('userInterested' in events[0]))
-    //   dispatch(getUserInterestedEvents({ token: user.token }));
+
   }, [user]);
 
   let eventsView = searchEvents

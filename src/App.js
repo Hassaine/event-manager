@@ -27,6 +27,7 @@ import {
 
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
+import { setEvents } from './features/eventSlice';
 
 function App() {
   const events = useSelector((state) => state.event.events);
@@ -52,7 +53,7 @@ function App() {
       if (!('phone' in user)) {
         dispatch(userProfile({ token: user.token }));
       }
-    }
+    } else if (events.length !== 0) dispatch(setEvents({ events: [] }));
   }, [events, user]);
 
   return (

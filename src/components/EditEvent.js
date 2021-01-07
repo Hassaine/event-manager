@@ -89,9 +89,6 @@ export default function EditEvent({ event, openEdit }) {
   const deleteImageHandler = () => {
     setImagePreviewUrl(null);
     setFile('');
-    //   dispatch(deleteEventImage({
-    //       id:event.id
-    //   }))
   };
 
   const formValidation = () => {
@@ -188,20 +185,6 @@ export default function EditEvent({ event, openEdit }) {
 
   return (
     <div>
-      {/* <Button
-        variant="contained"
-        style={{
-          width: '100%',
-          opacity: '0.9',
-          backgroundColor: '#AC3B61',
-          borderRadius: '7px',
-        }}
-        color="primary"
-        startIcon={<PlaylistAddIcon />}
-        onClick={handleClickOpen}
-      >
-        Ajouter un évenement
-      </Button> */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -214,11 +197,6 @@ export default function EditEvent({ event, openEdit }) {
           Modifier l'évenement
         </DialogTitle>
         <DialogContent style={{ backgroundColor: '#EEE2DC' }}>
-          {/* <DialogContentText>
-            To add a new event you have to fill in all the fields above, that
-            should contain : the title of the event, its date, a summary of the
-            topic the event, and some details.
-          </DialogContentText> */}
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <TextField
@@ -312,10 +290,6 @@ export default function EditEvent({ event, openEdit }) {
             </Grid>
             {imagePreviewUrl && (
               <Grid item xs={12}>
-                {/* <CardMedia
-                  className={classes.media}
-                  image={imagePreviewUrl}
-                />  */}
                 <img src={imagePreviewUrl} className={classes.previewImage} />
               </Grid>
             )}
