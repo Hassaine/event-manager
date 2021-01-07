@@ -59,11 +59,11 @@ const Profile = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const user = useSelector((state) => state.user.user);
-  const userError = useSelector((state) => state.user.error);
-  const userNotification = useSelector((state) => state.user.notification);
+  // const userError = useSelector((state) => state.user.error);
+  // const userNotification = useSelector((state) => state.user.notification);
 
-  const eventError = useSelector((state) => state.event.error);
-  const eventNotification = useSelector((state) => state.event.notification);
+  // const eventError = useSelector((state) => state.event.error);
+  // const eventNotification = useSelector((state) => state.event.notification);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -119,19 +119,19 @@ const Profile = () => {
           {value === 4 && <Interests />}
 
           {/* notification handler for the user slice */}
-          <NotificationHandler
+          {/* <NotificationHandler
             error={userError}
             setError={setErrorUser}
             notification={userNotification}
             setNotification={setNotificationUser}
-          />
+          /> */}
           {/* notification handler for the event slice */}
-          <NotificationHandler
+          {/* <NotificationHandler
             error={eventError}
             setError={setErrorEvent}
             notification={eventNotification}
             setNotification={setNotificationEvent}
-          />
+          /> */}
         </Grid>
       </Grid>
     </div>

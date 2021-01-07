@@ -8,6 +8,8 @@ import { Link, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Footer from '../components/static/Footer';
 import '../styles/css/landing.css';
+import NotificationHandler from '../components/static/NotificationHandler';
+import { setError, setNotification } from '../features/userSlice';
 
 const backgroundImage = 'https://source.unsplash.com/tQ0-1vkT6js/1300x900/';
 
@@ -50,6 +52,8 @@ function Landing() {
   const hist = useHistory();
   const classes = useStyles();
   const user = useSelector((state) => state.user.user);
+  const error = useSelector((state) => state.user.error);
+  const notification = useSelector((state) => state.user.notification);
 
   useEffect(() => {
     if (user) hist.push('/');

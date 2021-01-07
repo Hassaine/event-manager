@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login, setError, setNotification } from '../features/userSlice';
 import { useHistory } from 'react-router-dom';
 import NotificationHandler from '../components/static/NotificationHandler';
+import { useSnackbar } from 'notistack';
 
 function Copyright() {
   return (
@@ -68,29 +69,36 @@ export default function SignInSide() {
   const dispatch = useDispatch();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-  const user = useSelector(state => state.user.user)
-  const error = useSelector(state => state.user.error)
-  const notification = useSelector(state => state.user.notification)
-  const history = useHistory()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const user = useSelector((state) => state.user.user);
+  const error = useSelector((state) => state.user.error);
+  const notification = useSelector((state) => state.user.notification);
+  const history = useHistory();
 
-
-  const submitLogin = e => {
+  const submitLogin = (e) => {
     e.preventDefault();
-    console.log("u : " + username + " p : " + password)
+    console.log('u : ' + username + ' p : ' + password);
     dispatch(login({ username: username, password: password }));
-  }
-
+  };
 
   useEffect(() => {
     if (user) history.push('/');
   }, [user]);
 
-
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square style={{ backgroundColor: "#EEE2DC" }}>
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={5}
+        component={Paper}
+        elevation={6}
+        square
+        style={{ backgroundColor: '#EEE2DC' }}
+      >
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -109,7 +117,9 @@ export default function SignInSide() {
               name="username"
               autoComplete="username"
               autoFocus
-              onChange={event => { setUsername(event.target.value) }}
+              onChange={(event) => {
+                setUsername(event.target.value);
+              }}
             />
             <TextField
               variant="outlined"
@@ -121,7 +131,9 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
-              onChange={event => { setPassword(event.target.value) }}
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -131,7 +143,7 @@ export default function SignInSide() {
               type="submit"
               fullWidth
               variant="contained"
-              style={{ backgroundColor: "#123C69", color: "#EEE2DC" }}
+              style={{ backgroundColor: '#123C69', color: '#EEE2DC' }}
               className={classes.submit}
               onClick={submitLogin}
             >
@@ -144,7 +156,7 @@ export default function SignInSide() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link to='/SignUp' variant="body2">
+                <Link to="/SignUp" variant="body2">
                   Don't have an account? Sign Up
                 </Link>
               </Grid>
@@ -156,12 +168,12 @@ export default function SignInSide() {
         </div>
       </Grid>
 
-      <NotificationHandler
+      {/* <NotificationHandler
         error={error}
         notification={notification}
         setError={setError}
         setNotification={setNotification}
-      />
+      /> */}
     </Grid>
   );
 }
