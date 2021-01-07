@@ -193,7 +193,7 @@ export default function RecipeReviewCard({
               startIcon={<FavoriteIcon />}
               onClick={removeInterested}
             >
-              Je suis intéressé
+              Je suis déjà intéressé
             </Button>
           ))}
 
@@ -221,7 +221,7 @@ export default function RecipeReviewCard({
               startIcon={<DirectionsWalkIcon />}
               onClick={removeParticipationn}
             >
-              Je participe
+              Je participe déjà
             </Button>
           ))}
 

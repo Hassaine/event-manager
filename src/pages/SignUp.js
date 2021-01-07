@@ -69,7 +69,7 @@ export default function SignUp() {
   const [sexe, setSexe] = useState('homme');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [birthday, setBirthday] = useState();
+  const [birthday, setBirthday] = useState(new Date(1995, 11, 17));
 
 
   const dispatch = useDispatch();
@@ -154,9 +154,6 @@ export default function SignUp() {
 
   const submitSignUp = (e) => {
     e.preventDefault();
-    // console.log('u: ' + username + " t: " + "type" + " p: " + password + " date: "
-    // + dateFormater()
-    // + " sexe : " + sexe + " phone " +phone + " email : " + email)
     if (formValidation())
       dispatch(
         signUp({

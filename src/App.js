@@ -15,6 +15,7 @@ import {
 } from './features/eventSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { userProfile } from './features/userSlice';
+import { setEvents } from './features/eventSlice';
 
 function App() {
   const events = useSelector((state) => state.event.events);
@@ -34,6 +35,7 @@ function App() {
         dispatch(userProfile({ token: user.token }));
       }
     }
+    else if (events.length !== 0) dispatch(setEvents({ events: [] }))
 
   }, [events, user]);
 
