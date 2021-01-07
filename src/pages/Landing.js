@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundImage: `url(${backgroundImage})`,
         //backgroundColor: '#7fc7d9', // Average color of the background image.
         backgroundPosition: 'center',
-        //backgroundRepeat: "no-repeat",
-        // backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
         //filter: "blur(4px)"
     },
     button: {
