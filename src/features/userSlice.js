@@ -178,7 +178,6 @@ export const userSlice = createSlice({
     },
     [userProfile.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      // state.notification = 'Your accont has been created !';
       state.user = { token: state.user.token, ...action.payload };
     },
     [userProfile.rejected]: (state, action) => {
