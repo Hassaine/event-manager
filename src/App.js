@@ -43,6 +43,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("hna")
     if (user) {
       if (events.length === 0) dispatch(getAllEvents({ token: user?.token }));
       else if (!('userParticipate' in events[0]))
@@ -54,7 +55,7 @@ function App() {
         dispatch(userProfile({ token: user.token }));
       }
     } else if (events.length !== 0) dispatch(setEvents({ events: [] }));
-  }, [events, user]);
+  }, [user]);
 
   return (
     <SnackbarProvider maxSnack={5}>
