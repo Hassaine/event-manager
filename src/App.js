@@ -55,7 +55,7 @@ function App() {
         dispatch(userProfile({ token: user.token }));
       }
     } else if (events.length !== 0) dispatch(setEvents({ events: [] }));
-  }, [user]);
+  }, [events, user]);
 
   return (
     <SnackbarProvider maxSnack={5}>
