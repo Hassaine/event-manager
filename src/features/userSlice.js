@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import { userAPI } from './userAPI'
 import axios from 'axios';
 
+import { NETWORK } from '../env.var';
 // First, create the thunk
 export const login = createAsyncThunk(
   'user/login',
@@ -12,7 +13,7 @@ export const login = createAsyncThunk(
 
     var config = {
       method: 'post',
-      url: 'http://localhost:3000/login',
+      url: NETWORK.url_base + '/login',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -30,7 +31,7 @@ export const userProfile = createAsyncThunk(
   async ({ token }) => {
     var config = {
       method: 'get',
-      url: 'http://localhost:3000/users/profile',
+      url: NETWORK.url_base + '/users/profile',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -58,7 +59,7 @@ export const editProfile = createAsyncThunk(
     console.log(data);
     var config = {
       method: 'post',
-      url: 'http://localhost:3000/users/profile',
+      url: NETWORK.url_base + '/users/profile',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -79,7 +80,7 @@ export const uploadProfilePic = createAsyncThunk(
     data.append('image', file);
     var config = {
       method: 'post',
-      url: 'http://localhost:3000/users/profile/pic',
+      url: NETWORK.url_base + '/users/profile/pic',
       headers: {
         Authorization: token,
       },
@@ -109,7 +110,7 @@ export const signUp = createAsyncThunk(
 
     var config = {
       method: 'post',
-      url: 'http://localhost:3000/users/sign-up',
+      url: NETWORK.url_base + '/users/sign-up',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -157,7 +158,7 @@ export const userSlice = createSlice({
     },
     [login.rejected]: (state, action) => {
       state.status = 'failed';
-      state.error = "Incorrect Username or Password";
+      state.error = 'Incorrect Username or Password';
     },
 
     [signUp.pending]: (state, action) => {
