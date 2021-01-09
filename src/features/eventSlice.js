@@ -215,7 +215,7 @@ export const eventSlice = createSlice({
     },
     [getAllEvents.fulfilled]: (state, action) => {
       state.status = 'succeeded';
-      state.events = action.payload;
+      if (action.payload.length !== 0) state.events = action.payload;
     },
     [getAllEvents.rejected]: (state, action) => {
       state.status = 'failed';

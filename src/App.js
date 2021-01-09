@@ -43,6 +43,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("hna")
     if (user) {
       if (events.length === 0) dispatch(getAllEvents({ token: user?.token }));
       else if (!('userParticipate' in events[0]))

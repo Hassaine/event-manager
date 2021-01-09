@@ -16,11 +16,11 @@ const NotificationHandler = ({
         message: notification,
         type: 'success',
         insert: 'top',
-        container: 'top-right',
+        container: 'bottom-left',
         animationIn: ['animate__animated', 'animate__fadeIn'],
         animationOut: ['animate__animated', 'animate__fadeOut'],
         dismiss: {
-          duration: 5000,
+          duration: 3000,
           onScreen: true,
         },
       });
@@ -36,7 +36,7 @@ const NotificationHandler = ({
         animationIn: ['animate__animated', 'animate__fadeIn'],
         animationOut: ['animate__animated', 'animate__fadeOut'],
         dismiss: {
-          duration: 5000,
+          duration: 3000,
           onScreen: true,
         },
       });
