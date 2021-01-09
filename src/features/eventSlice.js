@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { NETWORK } from '../env.var';
 export const getAllEvents = createAsyncThunk(
   'event/getAll',
   async ({ token }) => {
@@ -31,7 +32,7 @@ export const addEvent = createAsyncThunk(
     data.append('event', model);
     var config = {
       method: 'post',
-      url: 'http://localhost:3000/events',
+      url: NETWORK.url_base + '/events',
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: token,
@@ -59,7 +60,7 @@ export const editEvent = createAsyncThunk(
     data.append('event', model);
     var config = {
       method: 'put',
-      url: 'http://localhost:3000/events',
+      url: NETWORK.url_base + '/events',
       headers: {
         'Content-Type': 'multipart/form-data',
         Authorization: token,
@@ -74,12 +75,13 @@ export const editEvent = createAsyncThunk(
 export const addInterest = createAsyncThunk(
   'event/addInterest',
   async ({ token, id }) => {
+    console.log(NETWORK.url_base);
     var data = JSON.stringify({
       id: id,
     });
     var config = {
       method: 'post',
-      url: 'http://localhost:3000/interests',
+      url: NETWORK.url_base + '/interests',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -99,7 +101,7 @@ export const addParticipation = createAsyncThunk(
     });
     var config = {
       method: 'post',
-      url: 'http://localhost:3000/participations',
+      url: NETWORK.url_base + '/participations',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -119,7 +121,7 @@ export const removeParticipation = createAsyncThunk(
     });
     var config = {
       method: 'delete',
-      url: 'http://localhost:3000/participations',
+      url: NETWORK.url_base + '/participations',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -139,7 +141,7 @@ export const removeInterest = createAsyncThunk(
     });
     var config = {
       method: 'delete',
-      url: 'http://localhost:3000/interests',
+      url: NETWORK.url_base + '/interests',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -156,7 +158,7 @@ export const getUserParticipationEvents = createAsyncThunk(
   async ({ token }) => {
     var config = {
       method: 'get',
-      url: 'http://localhost:3000/users/participations',
+      url: NETWORK.url_base + '/users/participations',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -173,7 +175,7 @@ export const getUserInterestedEvents = createAsyncThunk(
   async ({ token }) => {
     var config = {
       method: 'get',
-      url: 'http://localhost:3000/users/intrests',
+      url: NETWORK.url_base + '/users/intrests',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token,
@@ -205,7 +207,7 @@ export const eventSlice = createSlice({
     },
     setEvents: (state, action) => {
       state.events = action.payload.events;
-    }
+    },
   },
   extraReducers: {
     [getAllEvents.pending]: (state, action) => {
@@ -372,7 +374,7 @@ export const {
   setError,
   setNotification,
   setKeywordState,
-  setEvents
+  setEvents,
 } = eventSlice.actions;
 
 //Selector
