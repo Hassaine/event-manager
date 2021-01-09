@@ -5,10 +5,11 @@ import GridContainer from './Grid/GridContainer.js';
 import Card from './Card/Card.js';
 import CardAvatar from './Card/CardAvatar.js';
 import CardBody from './Card/CardBody.js';
-import anonymPhoto from '../../assets/images/anonym.png'
+import anonymPhoto from '../../assets/images/anonym.png';
 import { useDispatch, useSelector } from 'react-redux';
 import '../../styles/css/InfoUser.css';
 import { uploadProfilePic } from '../../features/userSlice.js';
+import { NETWORK } from '../../env.var.js';
 
 const styles = {
   cardCategoryWhite: {
@@ -79,8 +80,9 @@ export default function InfoUser() {
       'Novembre',
       'Décembre',
     ];
-    return `${dateSplited[0]} ${mois[Number(dateSplited[1]) - 1]} ${dateSplited[2]
-      }`;
+    return `${dateSplited[0]} ${mois[Number(dateSplited[1]) - 1]} ${
+      dateSplited[2]
+    }`;
   };
   return (
     <div>
@@ -89,27 +91,23 @@ export default function InfoUser() {
           <Card
             profile
             style={{
-              backgroundColor: "#BAB2B5AA",
-              borderRadius: "10px",
+              backgroundColor: '#BAB2B5AA',
+              borderRadius: '10px',
             }}
           >
-            {user &&
+            {user && (
               <CardAvatar profile>
-                {
-                  user.photosImagePath &&
+                {(user.photosImagePath && (
                   <ImgUpload
                     onChange={photoUpload}
-                    src={'http://localhost:3000' + user?.photosImagePath}
+                    src={NETWORK.url_base_images + user?.photosImagePath}
                   />
-                  ||
-                  !user.photosImagePath &&
-                  <ImgUpload
-                    onChange={photoUpload}
-                    src={anonymPhoto}
-                  />
-                }
+                )) ||
+                  (!user.photosImagePath && (
+                    <ImgUpload onChange={photoUpload} src={anonymPhoto} />
+                  ))}
               </CardAvatar>
-            }
+            )}
             <CardBody profile>
               <h3 className={classes.cardCategory}>
                 UserName : {user?.username} / <strong>{user?.type}</strong>

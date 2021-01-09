@@ -26,6 +26,7 @@ import {
   removeInterest,
 } from '../features/eventSlice';
 import EditEvent from './EditEvent';
+import { NETWORK } from '../env.var';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -138,24 +139,24 @@ export default function RecipeReviewCard({
           <Avatar aria-label="recipe" className={classes.avatar}>
             {event.ownerPhotosPath ? (
               <img
-                src={'http://localhost:3000' + event.ownerPhotosPath}
+                src={NETWORK.url_base_images + event.ownerPhotosPath}
                 alt={'profile'}
               ></img>
             ) : owner ? (
               owner.charAt(0).toUpperCase()
             ) : (
-                  'A'
-                )}
+              'A'
+            )}
           </Avatar>
         }
         action={
-          user ?
-            (user.username === event.ownerName ? (
+          user ? (
+            user.username === event.ownerName ? (
               <IconButton aria-label="settings" onClick={openEditClick}>
                 <EditIcon />
               </IconButton>
             ) : null
-            ) : null
+          ) : null
         }
         title={<b>{title}</b>}
         subheader={date}
@@ -163,7 +164,7 @@ export default function RecipeReviewCard({
       {event.photosImagePath && (
         <CardMedia
           className={classes.media}
-          image={'http://localhost:3000' + event.photosImagePath}
+          image={NETWORK.url_base_images + event.photosImagePath}
           title="Paella dish"
         />
       )}

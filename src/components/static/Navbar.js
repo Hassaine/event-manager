@@ -19,13 +19,14 @@ import { Avatar, Grid } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { logout, userProfile } from '../../features/userSlice'
-import { setKeywordState } from '../../features/eventSlice'
+import { logout, userProfile } from '../../features/userSlice';
+import { setKeywordState } from '../../features/eventSlice';
+import { NETWORK } from '../../env.var';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
-    backgroundColor: "#F76C6C"
+    backgroundColor: '#F76C6C',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
-    color: "#EEE2DC"
+    color: '#EEE2DC',
   },
   search: {
     position: 'relative',
@@ -88,11 +89,11 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textDecoration: 'none',
-    color: 'black'
+    color: 'black',
   },
   websiteTitle: {
     textDecoration: 'none',
-    color: 'white'
+    color: 'white',
   },
   avatar: {
     backgroundColor: '#AC3B61',
@@ -103,14 +104,14 @@ export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [keyword, setKeyword] = React.useState('')
+  const [keyword, setKeyword] = React.useState('');
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const user = useSelector(state => state.user.user);
+  const user = useSelector((state) => state.user.user);
   const hist = useHistory();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -128,8 +129,8 @@ export default function PrimarySearchAppBar() {
   const handleLogout = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    dispatch(logout())
-  }
+    dispatch(logout());
+  };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -138,7 +139,7 @@ export default function PrimarySearchAppBar() {
   const handleSearch = (e) => {
     setKeyword(e.target.value);
     dispatch(setKeywordState(e.target.value.toLowerCase()));
-  }
+  };
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -151,14 +152,14 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <Link to='/Profile' className={classes.link} >
-        <MenuItem onClick={handleMenuClose} >
-          <AccountCircleIcon style={{ color: "#123C69", marginRight: 10 }} />
+      <Link to="/Profile" className={classes.link}>
+        <MenuItem onClick={handleMenuClose}>
+          <AccountCircleIcon style={{ color: '#123C69', marginRight: 10 }} />
           My account
         </MenuItem>
       </Link>
       <MenuItem onClick={handleLogout}>
-        <ExitToAppIcon style={{ color: "#123C69", marginRight: 10 }} />
+        <ExitToAppIcon style={{ color: '#123C69', marginRight: 10 }} />
         Logout
       </MenuItem>
     </Menu>
@@ -199,16 +200,14 @@ export default function PrimarySearchAppBar() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" style={{ backgroundColor: "#123C69" }}>
+      <AppBar position="static" style={{ backgroundColor: '#123C69' }}>
         <Toolbar>
-          <Link to='/' className={classes.websiteTitle}>
+          <Link to="/" className={classes.websiteTitle}>
             <Typography className={classes.title} variant="h6" noWrap>
               Event Manager
             </Typography>
           </Link>
-          {
-            user
-            &&
+          {user && (
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -223,13 +222,11 @@ export default function PrimarySearchAppBar() {
                 onChange={handleSearch}
               />
             </div>
-          }
+          )}
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {
-              user
-              &&
+            {(user && (
               <div>
                 <IconButton
                   edge="end"
@@ -242,43 +239,39 @@ export default function PrimarySearchAppBar() {
                   <Avatar aria-label="recipe" className={classes.avatar}>
                     {user.photosImagePath ? (
                       <img
-                        src={'http://localhost:3000' + user.photosImagePath}
+                        src={NETWORK.url_base_images + user.photosImagePath}
                         alt={'profile'}
                       ></img>
-                    ) :
-                      (
-                        user.username ?
-                          user.username.charAt(0).toUpperCase()
-                          :
-                          "A"
-                      )
-                    }
+                    ) : user.username ? (
+                      user.username.charAt(0).toUpperCase()
+                    ) : (
+                      'A'
+                    )}
                   </Avatar>
                 </IconButton>
               </div>
-              ||
-              !user
-              &&
-              <div>
-                <Grid container>
-                  <Grid item xs={6}>
-                    <Link to='/login' className={classes.link}>
-                      <Button variant="contained" style={{ backgroundColor: "#EDC7B7" }}>
-                        Login
-                      </Button>
-                    </Link>
+            )) ||
+              (!user && (
+                <div>
+                  <Grid container>
+                    <Grid item xs={6}>
+                      <Link to="/login" className={classes.link}>
+                        <Button
+                          variant="contained"
+                          style={{ backgroundColor: '#EDC7B7' }}
+                        >
+                          Login
+                        </Button>
+                      </Link>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Link to="/Signup" className={classes.link}>
+                        <Button variant="contained">Register</Button>
+                      </Link>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Link to='/Signup' className={classes.link}>
-                      <Button variant="contained">
-                        Register
-                      </Button>
-                    </Link>
-                  </Grid>
-                </Grid>
-              </div>
-            }
-
+                </div>
+              ))}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
